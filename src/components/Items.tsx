@@ -1,18 +1,20 @@
 import { useEffect, useState } from "react"
 import axios from 'axios'
 import { Item, ProductBrief } from "./Item/Item";
+import { useAppSelector } from "../app/hooks";
 
-const Items = () => {
-  const [products, setProducts] = useState<ProductBrief[]>([]);
-  useEffect(() => {
-    axios.get("http://localhost:3000/products/brief")
-      .then((fetched) => setProducts(fetched.data))
-  }, [])
+const Items = (props: { products: ProductBrief[] }) => {
+
   return (
     <div>
-      {products.map(product => {
-        return <Item product={product} key={product.id} />
-      })}
+      {
+        props.products.length > 0 ?
+          props.products.map(product => {
+            return <Item product={product} key={product.id} />
+          }) :
+          <h1>Nothing Found</h1>
+
+      }
     </div>
   )
 }

@@ -1,0 +1,56 @@
+@import "../standard";
+
+.display-options-bar {
+  background-color: white;
+  margin-bottom: 50px;
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: $border-radius;
+
+  .item {
+    // height: 30px;
+    background-color: $primary-color;
+    font-size: 20px;
+    padding: 10px;
+    color: white;
+    border-radius: $border-radius;
+  }
+
+  .display-as {
+    background-color: white;
+    padding: 0;
+    width: 40px;
+    // height: 50px;
+    margin-right: 25px;
+
+    img {
+      width: 100%;
+    }
+  }
+
+  .price {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 12px;
+    padding: 10px;
+
+    .price-icon {
+      width: 19px;
+    }
+
+    .arrow-icon {
+      width: 13px;
+    }
+  }
+
+  .filter-btn {
+    img {
+      width: 20px;
+    }
+  }
+}

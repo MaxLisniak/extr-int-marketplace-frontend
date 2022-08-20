@@ -1,12 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from '../features/counter/Counter';
 import './App.css';
-import Items from '../components/Items';
+import Explore from '../components/Explore/Explore';
+import { useEffect } from 'react';
+import { fetchCategories } from '../features/filter/filterSlice';
+import { useAppDispatch, useAppSelector } from './hooks';
+import { Routes, Route, Link } from "react-router-dom";
 
 function App() {
+
+  const dispatch = useAppDispatch();
+  const categories = useAppSelector(state => state.filter.categories);
+
+  useEffect(() => {
+    if (categories.length === 0) {
+      dispatch(fetchCategories())
+    }
+  }, [])
+
   return (
-    <Items />
+    <Routes>
+      {/* <Route path="/" element={<Explore />} /> */}
+      <Route path="category/:selectedCategoryName" element={<Explore />} />
+    </Routes>
+    // <Explore />
   );
 }
 

@@ -1,0 +1,17 @@
+.breadcrumbs {
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 25px 0px;
+  gap: 12px;
+
+  img {
+    width: 9px;
+  }
+
+  .category,
+  .subcategory {
+    font-size: 22px;
+  }
+}
