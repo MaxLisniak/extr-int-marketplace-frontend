@@ -4,10 +4,10 @@ import Arrow from './assets/arrow.png';
 import Filter from './assets/filter.png';
 import Tiles from './assets/tiles.png';
 import Rows from './assets/rows.png';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { setPriceOrder } from '../../features/filter/filterSlice';
-import { toggleFilterVisibility } from '../../features/filter/filterSlice';
-import { toggleView } from '../../features/filter/filterSlice';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { setPriceOrder } from '../../../features/filter/filterSlice';
+import { toggleFilterVisibility } from '../../../features/filter/filterSlice';
+import { toggleView } from '../../../features/filter/filterSlice';
 
 const DisplayOptionsBar = () => {
 

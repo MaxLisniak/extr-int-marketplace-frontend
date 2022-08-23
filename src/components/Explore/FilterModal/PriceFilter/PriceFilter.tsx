@@ -1,7 +1,7 @@
-import { useAppDispatch, useAppSelector } from "../../app/hooks"
+import { useAppDispatch, useAppSelector } from "../../../../app/hooks"
 import "./PriceFilter.scss"
-import { setMinPrice } from "../../features/filter/filterSlice";
-import { setMaxPrice } from "../../features/filter/filterSlice";
+import { setMinPrice } from "../../../../features/filter/filterSlice";
+import { setMaxPrice } from "../../../../features/filter/filterSlice";
 
 const PriceFilter = () => {
 

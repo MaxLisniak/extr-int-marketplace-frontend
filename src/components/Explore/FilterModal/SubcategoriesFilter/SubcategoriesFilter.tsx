@@ -1,7 +1,7 @@
 import "./SubcategoriesFilter.scss";
 
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { setActiveSubcategory } from "../../features/filter/filterSlice";
+import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
+import { setActiveSubcategory } from "../../../../features/filter/filterSlice";
 
 const SubcategoriesFilter = () => {
 

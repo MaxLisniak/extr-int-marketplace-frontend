@@ -6,7 +6,7 @@ import ThumbDown from './assets/thumb-down.png';
 import Eye from './assets/eye.png';
 
 import Tag from './assets/tag.png';
-import { useAppSelector } from '../../app/hooks';
+import { useAppSelector } from '../../../../app/hooks';
 
 export interface ProductBrief {
   id: number,

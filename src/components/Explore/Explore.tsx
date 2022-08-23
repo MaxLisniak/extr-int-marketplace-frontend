@@ -1,11 +1,11 @@
 import './Explore.scss';
 
-import FilterModal from '../FilterModal/FilterModal';
-import DisplayOptionsBar from "../DisplayOptionsBar/DisplayOptionsBar";
-import Items from "../Items/Items";
-import Breadcrumbs from "../Breadcrumbs/Breadcrumbs";
+import FilterModal from './FilterModal/FilterModal';
+import DisplayOptionsBar from "./DisplayOptionsBar/DisplayOptionsBar";
+import Items from "./Items/Items";
+import Breadcrumbs from "./Breadcrumbs/Breadcrumbs";
 import { useEffect, useState } from 'react';
-import { ProductBrief } from '../Item/Item';
+import { ProductBrief } from './Items/Item/Item';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import configuredAxios from '../../axios/axios';
 import { useParams } from 'react-router-dom';
@@ -22,18 +22,19 @@ const Explore = () => {
   const selectedCharacteristics = useAppSelector(state => state.filter.selectedCharacteristics);
 
   // const categories = useAppSelector(state => state.filter.categories);
-  const { selectedCategoryName } = useParams();
+  const { categoryName } = useParams();
+  const selectedCategoryName = useAppSelector(state => state.filter.selectedCategoryName);
 
   const categories = useAppSelector(state => state.filter.categories);
 
   useEffect(() => {
     if (categories &&
-      selectedCategoryName &&
+      categoryName &&
       categories.map((c) => {
         return c.name
-      }).includes(selectedCategoryName))
-      dispatch(setActiveCategoryName(selectedCategoryName))
-  }, [selectedCategoryName, categories])
+      }).includes(categoryName))
+      dispatch(setActiveCategoryName(categoryName))
+  }, [categoryName, categories])
 
   useEffect(() => {
     configuredAxios.get("/products/brief", {
@@ -62,8 +63,8 @@ const Explore = () => {
   return (
     <>
       <div className="container">
-        <Breadcrumbs />
-        <DisplayOptionsBar />
+        {selectedCategoryName ? <Breadcrumbs /> : null}
+        {selectedCategoryName ? <DisplayOptionsBar /> : null}
         <FilterModal />
         <Items products={products} />
       </div>

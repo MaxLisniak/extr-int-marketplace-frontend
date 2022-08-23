@@ -1,13 +1,13 @@
 import './FilterModal.scss'
-import Collapsible from "../Collapsible/Collapsible"
-import PriceFilter from '../PriceFilter/PriceFilter'
-import SubcategoriesFilter from '../SubcategoriesFilter/SubcategoriesFilter'
+import Collapsible from "./Collapsible/Collapsible"
+import PriceFilter from './PriceFilter/PriceFilter'
+import SubcategoriesFilter from './SubcategoriesFilter/SubcategoriesFilter'
 import { useEffect, useState } from 'react'
-import configuredAxios from '../../axios/axios'
-import { useAppDispatch, useAppSelector } from '../../app/hooks'
+import configuredAxios from '../../../axios/axios'
+import { useAppDispatch, useAppSelector } from '../../../app/hooks'
 import React from 'react'
-import CharacteristicFilter from '../CharactersticFilter/CharacteristicFilter'
-import { selectCharacteristics } from '../../features/filter/filterSlice'
+import CharacteristicFilter from './CharactersticFilter/CharacteristicFilter'
+import { selectCharacteristics } from '../../../features/filter/filterSlice'
 
 const FilterModal = () => {
 

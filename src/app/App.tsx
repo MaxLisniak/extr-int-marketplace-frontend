@@ -4,6 +4,9 @@ import { useEffect } from 'react';
 import { fetchCategories } from '../features/filter/filterSlice';
 import { useAppDispatch, useAppSelector } from './hooks';
 import { Routes, Route, Link } from "react-router-dom";
+import Home from '../components/Home/Home';
+import Sidebar from '../components/Layout/Sidebar/Sidebar';
+import Layout from '../components/Layout/Layout';
 
 function App() {
 
@@ -17,11 +20,14 @@ function App() {
   }, [])
 
   return (
-    <Routes>
-      {/* <Route path="/" element={<Explore />} /> */}
-      <Route path="category/:selectedCategoryName" element={<Explore />} />
-    </Routes>
-    // <Explore />
+    <>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="categories/:categoryName" element={<Explore />} />
+        </Route>
+      </Routes>
+    </>
   );
 }
 

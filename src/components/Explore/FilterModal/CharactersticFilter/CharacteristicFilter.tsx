@@ -1,9 +1,9 @@
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
 import "./CharacteristicFilter.scss";
 // import { selectCharacteristic } from "../../features/filter/filterSlice";
 // import { removeCharacteristic } from "../../features/filter/filterSlice";
 import { useEffect, useState } from "react";
-import { selectCharacteristicsForName } from "../../features/filter/filterSlice";
+import { selectCharacteristicsForName } from "../../../../features/filter/filterSlice";
 
 
 const CharacteristicFilter = (

@@ -1,7 +1,7 @@
 import './Items.scss';
 
-import { Item, ProductBrief } from "../Item/Item";
-import { useAppSelector } from '../../app/hooks';
+import { Item, ProductBrief } from "./Item/Item";
+import { useAppSelector } from '../../../app/hooks';
 
 const Items = (props: { products: ProductBrief[] }) => {
   const displayAs = useAppSelector(state => state.filter.displayAs);
