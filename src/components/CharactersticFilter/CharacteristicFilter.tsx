@@ -44,7 +44,7 @@ const CharacteristicFilter = (
                 type="checkbox"
                 name={characteristicValue.value}
                 id={"checkbox-" + characteristicValue.id}
-                checked={Boolean(checkedCharacteristics.find((c: string) => c === characteristicValue.value))}
+                checked={Boolean(checkedCharacteristics?.find((c: string) => c === characteristicValue.value))}
                 onChange={(e: any) => {
                   dispatch(selectCharacteristicsForName({ characteristic_name_id: charName, value: characteristicValue.value }))
                   // !checkedCharacteristics.find((c) => characteristicValue.value === c) ?

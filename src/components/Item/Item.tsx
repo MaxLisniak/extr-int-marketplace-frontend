@@ -28,7 +28,7 @@ export interface ProductBrief {
 export const Item = (props: { product: ProductBrief }) => {
 
   const displayAs = useAppSelector(state => state.filter.displayAs);
-
+  const selectedCharacteristics = useAppSelector(state => state.filter.selectedCharacteristics)
   return <div className={`product-card ${displayAs}`}>
     <div className="star">
       <img src={StarWhite} alt="" />
@@ -43,14 +43,22 @@ export const Item = (props: { product: ProductBrief }) => {
       </div>
       <div className="text">
         <h2>{props.product.name}</h2>
-        <ul>{props.product.characteristics.map(characteristic => {
-          return (
-            <li key={characteristic.id}>
-              <b>{characteristic.characteristic_name.name}: </b>
-              <span>{characteristic.value}</span>
-            </li>
-          )
-        })}</ul>
+        <ul>{props.product.characteristics
+          .filter(characteristic => {
+            if (selectedCharacteristics[characteristic.characteristic_name.id]
+              ?.length > 0) {
+              return true;
+            }
+            return false
+          })
+          .map(characteristic => {
+            return (
+              <li key={characteristic.id}>
+                <b>{characteristic.characteristic_name.name}: </b>
+                <span>{characteristic.value}</span>
+              </li>
+            )
+          })}</ul>
         {props.product.latest_price ?
           <div className='price'><img src={Tag} alt="" /><span>${props.product.latest_price}</span></div> :
           null

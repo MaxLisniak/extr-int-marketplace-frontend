@@ -38,6 +38,7 @@ const DisplayOptionsBar = () => {
       <div className="item filter-btn"
         onClick={() => dispatch(toggleFilterVisibility())}>
         <img src={Filter} alt="" />
+        <span>Filter</span>
       </div>
       {/* <div className="item category">Category: Phones</div> */}
     </div>

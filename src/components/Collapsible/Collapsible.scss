@@ -1,19 +1,23 @@
-.toggle-btn {
-  // width: 100%;
-  text-align: left;
-  padding: 10px 0 10px 10px;
-  font-weight: 600;
-  border-bottom: 1px solid gray;
+.collapsible {
+  .toggle-btn {
+    // width: 100%;
+    text-align: left;
+    padding: 10px 0 10px 10px;
+    font-weight: 600;
+    border-bottom: 1px solid gray;
+  }
+
+  .toggle-btn:last-child {
+    border-bottom: none;
+  }
+
+  .arrow-icon {
+    width: 20px;
+    margin-right: 20px;
+  }
+
 }
 
-.toggle-btn:last-child {
-  border-bottom: none;
-}
-
-.arrow-icon {
-  width: 20px;
-  margin-right: 20px;
-}
 
 .collapsible-child {
   padding: 20px;

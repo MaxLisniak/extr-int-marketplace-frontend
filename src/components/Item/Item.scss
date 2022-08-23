@@ -54,7 +54,7 @@
 
     flex-grow: 1;
 
-    padding: 50px;
+    padding: 30px;
 
     .poster {
       grid-column-start: 1;
@@ -65,7 +65,7 @@
       justify-content: center;
 
       img {
-        width: 100%;
+        width: 180px;
       }
     }
 
@@ -112,7 +112,7 @@
       align-items: center;
       justify-content: space-evenly;
       list-style: none;
-      gap: 25px;
+      gap: 15px;
 
       font-size: 24px;
 
