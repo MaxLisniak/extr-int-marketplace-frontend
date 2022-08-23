@@ -2,7 +2,7 @@ import './Explore.scss';
 
 import FilterModal from '../FilterModal/FilterModal';
 import DisplayOptionsBar from "../DisplayOptionsBar/DisplayOptionsBar";
-import Items from "../Items";
+import Items from "../Items/Items";
 import Breadcrumbs from "../Breadcrumbs/Breadcrumbs";
 import { useEffect, useState } from 'react';
 import { ProductBrief } from '../Item/Item';
@@ -19,15 +19,21 @@ const Explore = () => {
   const selectedSubcategory = useAppSelector(state => state.filter.selectedSubcategory)
   const minPrice = useAppSelector(state => state.filter.minPrice);
   const maxPrice = useAppSelector(state => state.filter.maxPrice);
+  const selectedCharacteristics = useAppSelector(state => state.filter.selectedCharacteristics);
 
   // const categories = useAppSelector(state => state.filter.categories);
   const { selectedCategoryName } = useParams();
 
+  const categories = useAppSelector(state => state.filter.categories);
 
   useEffect(() => {
-    if (selectedCategoryName)
+    if (categories &&
+      selectedCategoryName &&
+      categories.map((c) => {
+        return c.name
+      }).includes(selectedCategoryName))
       dispatch(setActiveCategoryName(selectedCategoryName))
-  }, [selectedCategoryName])
+  }, [selectedCategoryName, categories])
 
   useEffect(() => {
     configuredAxios.get("/products/brief", {
@@ -37,26 +43,31 @@ const Explore = () => {
         selectedSubcategoryName: selectedSubcategory?.name,
         minPrice,
         maxPrice,
-      }
+        selectedCharacteristics
+      },
     })
       .then((fetched) => {
         setProducts(fetched.data)
+      }).catch((err) => {
+        console.log(err)
       })
   }, [
     priceOrder,
     selectedSubcategory,
     selectedCategoryName,
     minPrice,
-    maxPrice
+    maxPrice,
+    selectedCharacteristics,
   ])
   return (
-    <div className="container">
-      <Breadcrumbs />
-      <DisplayOptionsBar />
-      <FilterModal />
-      <Items products={products} />
-
-    </div>
+    <>
+      <div className="container">
+        <Breadcrumbs />
+        <DisplayOptionsBar />
+        <FilterModal />
+        <Items products={products} />
+      </div>
+    </>
   )
 }
 

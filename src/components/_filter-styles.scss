@@ -1,0 +1,25 @@
+@mixin filter {
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .button-container {
+      display: grid;
+      grid-template-columns: 20px 1fr;
+    }
+
+    input {
+      width: 20px;
+      height: 20px;
+      grid-column-start: 1;
+      grid-column-end: span 1;
+    }
+
+    label {
+      padding-left: 10px;
+      grid-column-start: 2;
+      grid-column-end: span 1;
+    }
+  }
+}

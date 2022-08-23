@@ -1,0 +1,5 @@
+@import "../filter-styles";
+
+.characteristic-filter {
+  @include filter
+}

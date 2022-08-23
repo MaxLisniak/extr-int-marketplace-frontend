@@ -6,6 +6,7 @@ import ThumbDown from './assets/thumb-down.png';
 import Eye from './assets/eye.png';
 
 import Tag from './assets/tag.png';
+import { useAppSelector } from '../../app/hooks';
 
 export interface ProductBrief {
   id: number,
@@ -25,7 +26,10 @@ export interface ProductBrief {
 
 }
 export const Item = (props: { product: ProductBrief }) => {
-  return <div className="product-card">
+
+  const displayAs = useAppSelector(state => state.filter.displayAs);
+
+  return <div className={`product-card ${displayAs}`}>
     <div className="star">
       <img src={StarWhite} alt="" />
     </div>

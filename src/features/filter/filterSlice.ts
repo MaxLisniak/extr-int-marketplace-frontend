@@ -18,7 +18,11 @@ export interface FilterState {
   categories: Category[],
   selectedSubcategory: Subcategory | null,
   selectedCategoryName: string | null,
-  priceOrder: 'desc' | 'asc';
+  priceOrder: 'desc' | 'asc',
+  selectedCharacteristics: any,
+  filterVisible: boolean,
+  displayAs: "rows" | "tiles",
+
 }
 
 const initialState: FilterState = {
@@ -27,7 +31,10 @@ const initialState: FilterState = {
   categories: [],
   priceOrder: 'desc',
   selectedSubcategory: null,
-  selectedCategoryName: null
+  selectedCategoryName: null,
+  selectedCharacteristics: {},
+  filterVisible: true,
+  displayAs: "rows",
 };
 export const fetchCategories = createAsyncThunk<
   Category[]
@@ -54,9 +61,29 @@ export const filterSlice = createSlice({
     setActiveSubcategory: (state, action: PayloadAction<Subcategory>) => {
       state.selectedSubcategory = action.payload;
     },
-    setActiveCategoryName: (state, action: PayloadAction<string>) => {
+    setActiveCategoryName: (state, action: PayloadAction<string | null>) => {
       state.selectedCategoryName = action.payload;
+    },
+    selectCharacteristics: (state, action: PayloadAction<{}>) => {
+      state.selectedCharacteristics = action.payload;
+    },
+    selectCharacteristicsForName: (state, action: PayloadAction<{ characteristic_name_id: number, value: string }>) => {
+      let characteristicsForName = state.selectedCharacteristics[action.payload.characteristic_name_id as keyof {}] as string[]
+      !characteristicsForName.includes(action.payload.value) ?
+        characteristicsForName.push(action.payload.value) :
+        characteristicsForName = characteristicsForName.filter(value => value !== action.payload.value)
+      state.selectedCharacteristics[action.payload.characteristic_name_id as keyof {}] = characteristicsForName
+    },
+    toggleFilterVisibility: (state) => {
+      state.filterVisible = !state.filterVisible;
+    },
+    toggleView: (state) => {
+      state.displayAs === 'rows' ?
+        state.displayAs = 'tiles' :
+        state.displayAs = 'rows'
     }
+
+
   },
   extraReducers: (builder) => {
     builder
@@ -71,7 +98,12 @@ export const {
   setMaxPrice,
   setPriceOrder,
   setActiveSubcategory,
-  setActiveCategoryName
+  setActiveCategoryName,
+  selectCharacteristics,
+  selectCharacteristicsForName,
+  toggleFilterVisibility,
+  toggleView,
+
 } = filterSlice.actions;
 
 export default filterSlice.reducer;
