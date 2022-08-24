@@ -3,10 +3,13 @@ import Explore from '../components/Explore/Explore';
 import { useEffect } from 'react';
 import { fetchCategories } from '../features/filter/filterSlice';
 import { useAppDispatch, useAppSelector } from './hooks';
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Home from '../components/Home/Home';
-import Sidebar from '../components/Layout/Sidebar/Sidebar';
 import Layout from '../components/Layout/Layout';
+import Admin from '../components/Admin/Admin';
+import ModerateProducts from '../components/Admin/ModerateProducts/ModerateProducts';
+import ModerateCategories from '../components/Admin/ModerateCategories/ModerateCategories';
+import ModerateSubcategories from '../components/Admin/ModerateSubcategories /ModerateSubcategories';
 
 function App() {
 
@@ -25,6 +28,11 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="categories/:categoryName" element={<Explore />} />
+          <Route path="admin" element={<Admin />}>
+            <Route path='products' element={<ModerateProducts />} />
+            <Route path="categories" element={<ModerateCategories />} />
+            <Route path="subcategories" element={<ModerateSubcategories />} />
+          </Route>
         </Route>
       </Routes>
     </>

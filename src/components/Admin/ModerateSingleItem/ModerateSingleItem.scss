@@ -1,0 +1,42 @@
+.moderate-item {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px dashed grey;
+  padding: 10px;
+
+  .input {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+
+      button {
+        padding: 2px 10px;
+      }
+
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    textarea,
+    input {
+      border: 1px solid grey;
+      border-radius: 3px;
+      padding: 3px;
+    }
+  }
+
+  .delete {
+    background-color: rgb(172, 104, 118);
+    color: white;
+    border: none;
+    padding: 2px 10px;
+    border-radius: 3px;
+  }
+}

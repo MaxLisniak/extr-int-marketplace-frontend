@@ -46,7 +46,7 @@ export const fetchCategories = createAsyncThunk<
   )
 
 export const filterSlice = createSlice({
-  name: 'counter',
+  name: 'filter',
   initialState,
   reducers: {
     setMinPrice: (state, action: PayloadAction<number>) => {

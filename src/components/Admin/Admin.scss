@@ -1,0 +1,20 @@
+@import "../standard";
+
+.admin {
+  padding: 10px;
+
+  .tabs {
+    display: flex;
+    list-style: none;
+    gap: 10px;
+    border-bottom: 1px solid gray;
+    padding: 10px 0;
+
+    li {
+      background-color: $primary-color;
+      color: white;
+      border-radius: 3px;
+      padding: 3px;
+    }
+  }
+}
