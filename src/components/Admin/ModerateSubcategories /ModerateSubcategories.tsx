@@ -13,7 +13,9 @@ const ModerateSubcategories = () => {
 
   const items = useAppSelector(state => state.admin.subcategories);
   const modelName = "subcategories";
-  const fieldsDefinition = ['name'];
+  const fieldsDefinition = [
+    { fieldName: 'name', fieldType: "input" }
+  ];
 
   return (
     <div className="moderate-items">

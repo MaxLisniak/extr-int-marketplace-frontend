@@ -14,7 +14,11 @@ const ModerateProducts = () => {
 
   const items = useAppSelector(state => state.admin.products);
   const modelName = "products";
-  const fieldsDefinition = ["name", "description", "image_url"];
+  const fieldsDefinition = [
+    { fieldName: "name", fieldType: "input" },
+    { fieldName: "description", fieldType: "input" },
+    { fieldName: "image_url", fieldType: "textarea" },
+  ];
 
   return (
     <div className="moderate-items">

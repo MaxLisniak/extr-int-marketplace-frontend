@@ -6,7 +6,7 @@ import React from "react";
 
 const ModerateSingleItem = (props: {
   items: any[],
-  fieldsDefinition: string[],
+  fieldsDefinition: { fieldName: string, fieldType: string }[],
   id: number,
   modelName: string,
   deleteItem: Function,
@@ -22,16 +22,19 @@ const ModerateSingleItem = (props: {
     editing: boolean,
     value: string,
     originalValue: string,
-    prevValue: string
+    prevValue?: string,
+    fieldType: string,
   }
 
   useEffect(() => {
     const filledFields: any = {};
-    for (const fieldName of props.fieldsDefinition) {
-      filledFields[fieldName as keyof {}] = {}
-      filledFields[fieldName as keyof {}].editing = false;
-      filledFields[fieldName as keyof {}].value = item[fieldName]
-      filledFields[fieldName as keyof {}].originalValue = item[fieldName]
+    for (const field of props.fieldsDefinition) {
+      const { fieldName, fieldType } = field;
+      filledFields[fieldName] = {}
+      filledFields[fieldName].editing = false;
+      filledFields[fieldName].fieldType = fieldType;
+      filledFields[fieldName].value = item[fieldName];
+      filledFields[fieldName].originalValue = item[fieldName];
     }
     setFields(filledFields);
   }, [item, props])
@@ -74,29 +77,49 @@ const ModerateSingleItem = (props: {
     return (
       <div className="input" key={`${fieldName}-for-${item.id}`}>
         <label htmlFor={`${fieldName}-field-${item.id}`}>{fieldName}</label>
-        <input
-          style={{
-            backgroundColor: field.editing ?
-              "unset" :
-              field.value === field.originalValue ?
+        {field.fieldType === "input" ?
+          <textarea
+            style={{
+              backgroundColor: field.editing ?
                 "unset" :
-                "rgb(236, 236, 173)"
-          }}
-          disabled={!field.editing}
-          type="text"
-          autoComplete="off"
-          id={`${fieldName}-field-${item.id}`}
-          value={field.value || ""}
-          onChange={(e) => {
-            setFields({
-              ...fields,
-              [fieldName]: {
-                ...field,
-                value: e.target.value,
-              }
-            })
-          }}
-        />
+                field.value === field.originalValue ?
+                  "unset" :
+                  "rgb(236, 236, 173)"
+            }}
+            disabled={!field.editing}
+            autoComplete="off"
+            id={`${fieldName}-field-${item.id}`}
+            value={field.value || ""}
+            onChange={(e) => {
+              setFields({
+                ...fields,
+                [fieldName]: { ...field, value: e.target.value, }
+              })
+            }}
+          />
+          : field.fieldType === "textarea" ?
+            <input
+              style={{
+                backgroundColor: field.editing ?
+                  "unset" :
+                  field.value === field.originalValue ?
+                    "unset" :
+                    "rgb(236, 236, 173)"
+              }}
+              disabled={!field.editing}
+              type="text"
+              autoComplete="off"
+              id={`${fieldName}-field-${item.id}`}
+              value={field.value || ""}
+              onChange={(e) => {
+                setFields({
+                  ...fields,
+                  [fieldName]: { ...field, value: e.target.value, }
+                })
+              }}
+            />
+            : null
+        }
         <div className="buttons">
           <button
             disabled={field.editing}

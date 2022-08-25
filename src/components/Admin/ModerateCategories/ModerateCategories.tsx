@@ -4,6 +4,7 @@ import { deleteCategory, fetchItems } from "../../../features/admin/thunks";
 import { Subcategory } from "../../../features/admin/types";
 import ModerateSingleItem from "../ModerateSingleItem/ModerateSingleItem";
 import "../ModerateItems/ModerateItems.scss";
+import "./ModerateCategories.scss";
 
 const ModerateCategories = () => {
 
@@ -15,7 +16,9 @@ const ModerateCategories = () => {
 
   const modelName = "categories";
   const items = useAppSelector(state => state.admin.categories);
-  const fieldsDefinition = ["name"];
+  const fieldsDefinition = [
+    { fieldName: "name", fieldType: "input" }
+  ];
 
   return (
     <div className="moderate-items">
@@ -33,14 +36,16 @@ const ModerateCategories = () => {
             >
 
               {
-                (item.subcategories?.length > 0)
+                (item.subcategories?.length > 0) ?
+                  <>
+                    <p>Has subcategories:</p>
+                    <ul className="subcategories">
+                      {item?.subcategories?.map((subcategory: Subcategory) => {
+                        return <li key={subcategory.id}>{subcategory.name}</li>
+                      })}
+                    </ul>
+                  </> : null
               }
-              <p>Has subcategories:</p>
-              <ul>
-                {item?.subcategories?.map((subcategory: Subcategory) => {
-                  return <li key={subcategory.id}>{subcategory.name}</li>
-                })}
-              </ul>
 
             </ModerateSingleItem>
           )
