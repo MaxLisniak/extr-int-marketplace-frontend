@@ -16,6 +16,9 @@ const Admin = () => {
         <Link to="subcategories" style={{ textDecoration: "none" }}>
           <li>Subcategories</li>
         </Link>
+        <Link to="characteristics" style={{ textDecoration: "none" }}>
+          <li>Characteristics</li>
+        </Link>
       </ul>
       <Outlet />
       {/* <ModerateProducts /> */}

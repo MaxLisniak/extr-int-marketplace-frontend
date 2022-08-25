@@ -6,6 +6,8 @@ const initialState: AdminState = {
   products: [],
   categories: [],
   subcategories: [],
+  characteristics: [],
+  characteristic_names: [],
 }
 
 export const adminSlice = createSlice({

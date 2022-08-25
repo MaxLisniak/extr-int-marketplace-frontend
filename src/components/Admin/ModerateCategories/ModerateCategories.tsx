@@ -1,10 +1,8 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { deleteCategory, fetchItems } from "../../../features/admin/thunks";
-import { Subcategory } from "../../../features/admin/types";
+import { deleteCategory, deleteSubcategory, fetchItems } from "../../../features/admin/thunks";
 import ModerateSingleItem from "../ModerateSingleItem/ModerateSingleItem";
 import "../ModerateItems/ModerateItems.scss";
-import "./ModerateCategories.scss";
 
 const ModerateCategories = () => {
 
@@ -17,6 +15,7 @@ const ModerateCategories = () => {
 
   const modelName = "categories";
   const categories = useAppSelector(state => state.admin.categories);
+  const subcategories = useAppSelector(state => state.admin.subcategories)
   const items = categories;
 
   const fieldsDefinition = {
@@ -26,24 +25,49 @@ const ModerateCategories = () => {
     },
     name: {
       fieldType: "textInput",
+      editable: true,
     },
-    subcategories: {
-      fieldType: "list",
-      editable: false,
-    }
+    // subcategories: {
+    //   fieldType: "list",
+    //   editable: false,
+    // },
   };
+
+  const nestedModelsDefinition = {
+    subcategories: {
+      fieldsDefinition: {
+        id: {
+          fieldType: "textInput",
+          editable: false,
+        },
+        name: {
+          fieldType: "textInput",
+          editable: true
+        },
+        category_id: {
+          fieldType: "select",
+          values: categories,
+          editable: true,
+        },
+      },
+      items: subcategories,
+      deleteItem: deleteSubcategory,
+      reference_key: "category_id",
+    }
+  }
 
   return (
     <div className="moderate-items">
       <h2>Moderate {modelName}</h2>
       {
-        items.map((item, id) => {
+        items.map((item, i) => {
           return (
             <ModerateSingleItem
               modelName={modelName}
               items={items}
               fieldsDefinition={fieldsDefinition}
-              id={id}
+              nestedModelsDefinition={nestedModelsDefinition}
+              i={i}
               key={`${modelName}-${item.id}-form`}
               deleteItem={deleteCategory}
             >

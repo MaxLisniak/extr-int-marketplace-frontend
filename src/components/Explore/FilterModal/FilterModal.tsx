@@ -21,7 +21,7 @@ const FilterModal = () => {
   useEffect(() => {
     // if (characteristicNames.length === 0) {
     console.log(selectedSubcategory, selectedCategoryName)
-    configuredAxios.get("/characteristic_names", {
+    configuredAxios.get("/characteristic_names/parameterized/", {
       params: {
         selectedSubcategoryName: selectedSubcategory?.name,
         selectedCategoryName

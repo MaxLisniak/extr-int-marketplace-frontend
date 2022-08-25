@@ -24,10 +24,12 @@ const ModerateSubcategories = () => {
     },
     name: {
       fieldType: "textInput",
+      editable: true
     },
     category_id: {
       fieldType: "select",
       values: categories,
+      editable: true
     },
   };
 
@@ -35,13 +37,13 @@ const ModerateSubcategories = () => {
     <div className="moderate-items">
       <h2>Moderate {modelName}</h2>
       {
-        items.map((item, id) => {
+        items.map((item, i) => {
           return (
             <ModerateSingleItem
               modelName={modelName}
               items={items}
               fieldsDefinition={fieldsDefinition}
-              id={id}
+              i={i}
               key={`${modelName}-${item.id}-form`}
               deleteItem={deleteSubcategory}
             >

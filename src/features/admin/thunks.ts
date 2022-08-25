@@ -34,3 +34,10 @@ export const deleteSubcategory = createAsyncThunk
       return id
     }
   })
+export const deleteCharacteristic = createAsyncThunk
+  ('admin/deleteCharacteristic', async (id: number) => {
+    const response = await configuredAxios.delete(`characteristics/${id}`);
+    if (response.data === "OK") {
+      return id
+    }
+  })

@@ -1,21 +1,26 @@
 import "./ModerateSingleItem.scss";
 import { useEffect, useState } from "react";
-import { useAppDispatch } from "../../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { updateItem } from "../../../features/admin/thunks";
 import React from "react";
+import { AdminState } from "../../../features/admin/types";
 
 const ModerateSingleItem = (props: {
   items: any[],
   fieldsDefinition: {},
-  id: number,
+  nestedModelsDefinition?: {},
+  i: number,
   modelName: string,
   deleteItem: Function,
   children?: React.ReactNode
 }) => {
 
   const dispatch = useAppDispatch();
-  const item = props.items[props.id];
-
+  // const item = useAppSelector(state =>
+  //   state.admin[props.modelName as keyof AdminState]
+  // )[props.i];
+  const item = props.items[props.i];
+  const parentId = item["id"];
   const [fields, setFields] = useState({})
 
   interface Field {
@@ -26,6 +31,19 @@ const ModerateSingleItem = (props: {
     fieldType: string,
     values?: [] | undefined,
     editable: boolean,
+    // nestedProperties?: {
+    // items?: any[],
+    // modelName?: string,
+    // fieldsDefinition?: {},
+    // deleteItem?: Function,
+    // reference_key: number,
+    // },
+  }
+  interface NestedModel {
+    items: any[],
+    fieldsDefinition: {},
+    deleteItem: Function,
+    reference_key: number,
   }
 
   useEffect(() => {
@@ -37,21 +55,34 @@ const ModerateSingleItem = (props: {
           {
             fieldType: string,
             values: { id: number, name: {} }[],
-            editable: boolean
+            editable: boolean,
+            // nestedProperties: {
+            //   items?: [],
+            //   modelName?: string,
+            //   fieldsDefinition?: {},
+            //   deleteItem?: Function,
+            //   reference_key?: number,
+            // },
           }
         ];
       const { fieldType, values, editable } = fieldProperties;
       filledFields[fieldName] = {}
       filledFields[fieldName].fieldType = fieldType;
       filledFields[fieldName].editing = false;
-      filledFields[fieldName].originalValue = item[fieldName];
-      filledFields[fieldName].value = item[fieldName];
+      filledFields[fieldName].originalValue = item[fieldName as keyof {}];
+      filledFields[fieldName].value = item[fieldName as keyof {}];
       filledFields[fieldName].editable = editable;
-      if (fieldType === "select" && values) filledFields[fieldName].values = values;
-      if (fieldType === "list") filledFields[fieldName].values =
-        filledFields[fieldName].value;
+      if (fieldType === "select" && values)
+        filledFields[fieldName].values = values;
+      if (fieldType === "list")
+        filledFields[fieldName].values = filledFields[fieldName].value;
+      // if (fieldType === "nested")
+      //   filledFields[fieldName].nestedProperties = fieldProperties.nestedProperties
+
     }
     setFields(filledFields);
+
+
   }, [item, props])
 
   const hasChanges = Object.entries(fields)
@@ -88,41 +119,23 @@ const ModerateSingleItem = (props: {
 
   const formInputs = Object.entries(fields).map((entry) => {
     const [fieldName, field] = entry as [string, Field];
-
     return (
       <div className="input" key={`${fieldName}-for-${item.id}`}>
         <label htmlFor={`${fieldName}-field-${item.id}`}>{fieldName}</label>
-        {field.fieldType === "textarea" ?
-          <textarea
-            style={{
-              backgroundColor: field.editing ?
-                "unset" :
-                field.value === field.originalValue ?
-                  "unset" :
-                  "rgb(236, 236, 173)"
-            }}
-            disabled={!field.editing}
-            autoComplete="off"
-            id={`${fieldName}-field-${item.id}`}
-            value={field.value || ""}
-            onChange={(e) => {
-              setFields({
-                ...fields,
-                [fieldName]: { ...field, value: e.target.value, }
-              })
-            }}
-          />
-          : field.fieldType === "textInput" ?
-            <input
+        {
+
+          // TEXTAREA
+
+          field.fieldType === "textarea" ?
+            <textarea
               style={{
                 backgroundColor: field.editing ?
                   "unset" :
                   field.value === field.originalValue ?
                     "unset" :
-                    "rgb(236, 236, 173)"
+                    "rgb(151, 183, 244)"
               }}
               disabled={!field.editing}
-              type="text"
               autoComplete="off"
               id={`${fieldName}-field-${item.id}`}
               value={field.value || ""}
@@ -133,128 +146,204 @@ const ModerateSingleItem = (props: {
                 })
               }}
             />
-            : field.fieldType === "select" ?
-              <select
-                id={`${fieldName}-field-${item.id}`}
-                disabled={!field.editing}
+
+            // TEXTINPUT
+
+            : field.fieldType === "textInput" ?
+              <input
                 style={{
                   backgroundColor: field.editing ?
                     "unset" :
                     field.value === field.originalValue ?
                       "unset" :
-                      "rgb(236, 236, 173)"
+                      "rgb(151, 183, 244)"
                 }}
+                disabled={!field.editing}
+                type="text"
+                autoComplete="off"
+                id={`${fieldName}-field-${item.id}`}
                 value={field.value || ""}
                 onChange={(e) => {
                   setFields({
                     ...fields,
-                    [fieldName]: { ...field, value: Number(e.target.value), }
+                    [fieldName]: { ...field, value: e.target.value, }
                   })
                 }}
-              >
-                {field.values?.map((value: { id: number, name: string }) => {
-                  return <option
-                    key={value.id}
-                    value={value.id}
-                    selected={value.id === Number(field.value)}
-                  >
-                    {`${value.id}: ${value.name}`}
-                  </option>
-                })}
-              </select>
-              : field.fieldType === "list" ?
-                <ul className="list">
+              />
+
+              // SELECT
+
+              : field.fieldType === "select" ?
+                <select
+                  id={`${fieldName}-field-${item.id}`}
+                  disabled={!field.editing}
+                  style={{
+                    backgroundColor: field.editing ?
+                      "unset" :
+                      field.value === field.originalValue ?
+                        "unset" :
+                        "rgb(151, 183, 244)"
+                  }}
+                  value={field.value || ""}
+                  onChange={(e) => {
+                    setFields({
+                      ...fields,
+                      [fieldName]: { ...field, value: Number(e.target.value), }
+                    })
+                  }}
+                >
                   {field.values?.map((value: { id: number, name: string }) => {
-                    return <li key={value.id}>{`${value.id}: ${value.name}`}</li>
+                    return <option
+                      key={value.id}
+                      value={value.id}
+                      defaultValue={field.value}
+                    >
+                      {`${value.id}: ${value.name}`}
+                    </option>
                   })}
-                  {field.values?.length === 0 ?
-                    <li><i>No values</i></li>
-                    : null}
-                </ul>
-                : null
+                </select>
+
+                // LIST
+
+                : field.fieldType === "list" ?
+                  <ul className="list">
+                    {field.values?.map((value: { id: number, name: string }) => {
+                      return <li key={value.id}>{`${value.id}: ${value.name}`}</li>
+                    })}
+                    {field.values?.length === 0 ?
+                      <li><i>No values</i></li>
+                      : null}
+                  </ul>
+                  : null
         }
-        {field.editable !== false ?
-          <div className="buttons">
-            <button
-              disabled={field.editing}
-              onClick={
-                () =>
-                  setFields(
-                    {
-                      ...fields,
-                      [fieldName]: {
-                        ...field,
-                        editing: true,
-                        prevValue: field.value
+        {
+
+          // EDIT 
+
+          field.editable ?
+            <div className="buttons">
+              <button
+                disabled={field.editing}
+                onClick={
+                  () =>
+                    setFields(
+                      {
+                        ...fields,
+                        [fieldName]: {
+                          ...field,
+                          editing: true,
+                          prevValue: field.value
+                        }
                       }
-                    }
-                  )
-              }>
-              Edit
-            </button>
-            <button
-              disabled={!field.editing}
-              onClick={
-                () =>
-                  setFields(
-                    {
-                      ...fields,
-                      [fieldName]: {
-                        ...field,
-                        editing: false,
-                        prevValue: undefined
+                    )
+                }>
+                Edit
+              </button>
+
+              {/* SAVE  */}
+
+              <button
+                disabled={!field.editing}
+                onClick={
+                  () =>
+                    setFields(
+                      {
+                        ...fields,
+                        [fieldName]: {
+                          ...field,
+                          editing: false,
+                          prevValue: undefined
+                        }
                       }
-                    }
-                  )
-              }>
-              Save
-            </button>
-            <button
-              disabled={!field.editing}
-              onClick={
-                () =>
-                  setFields(
-                    {
-                      ...fields,
-                      [fieldName]: {
-                        ...field,
-                        editing: false,
-                        value: field.prevValue
+                    )
+                }>
+                Save
+              </button>
+
+              {/* CANCEL  */}
+
+              <button
+                disabled={!field.editing}
+                onClick={
+                  () =>
+                    setFields(
+                      {
+                        ...fields,
+                        [fieldName]: {
+                          ...field,
+                          editing: false,
+                          value: field.prevValue
+                        }
                       }
-                    }
-                  )
-              }>
-              Cancel
-            </button>
-            <button
-              disabled={field.value === field.originalValue}
-              onClick={
-                () =>
-                  setFields(
-                    {
-                      ...fields,
-                      [fieldName]: {
-                        ...field,
-                        value: field.originalValue
+                    )
+                }>
+                Cancel
+              </button>
+
+              {/* RESET  */}
+
+              <button
+                disabled={field.value === field.originalValue}
+                onClick={
+                  () =>
+                    setFields(
+                      {
+                        ...fields,
+                        [fieldName]: {
+                          ...field,
+                          value: field.originalValue
+                        }
                       }
-                    }
-                  )
-              }>
-              Reset
-            </button>
-          </div>
-          : null
+                    )
+                }>
+                Reset
+              </button>
+            </div>
+            : null
         }
       </div>
     )
   })
 
+  let nestedModels: any = null;
+  if (props.nestedModelsDefinition) {
+    nestedModels = (
+      Object.entries(props.nestedModelsDefinition as {})
+        .map((entry) => {
+          const [modelName, modelProperties] = entry as [string, NestedModel];
+          const items = modelProperties.items
+            .filter(item => {
+              return parentId === item[modelProperties.reference_key]
+            })
+          return {
+            modelName: modelName,
+            reactElements:
+              items.map((item, i) => {
+                return (
+
+                  <ModerateSingleItem
+                    modelName={modelName}
+                    items={items}
+                    i={i}
+                    fieldsDefinition={modelProperties.fieldsDefinition}
+                    deleteItem={modelProperties.deleteItem}
+                    key={`${modelName}-${item.id}-form`}
+                  />
+
+                )
+              })
+          }
+        })
+    )
+  }
+
+  // console.log(...nestedModels)
+
   return (
-    <form className="moderate-item" onSubmit={(e) => {
-      e.preventDefault();
-    }}>
+    <div className="moderate-item">
       <>{formInputs}</>
       {props.children}
+
       <button
         disabled={isEditing || !hasChanges}
         onClick={() => {
@@ -277,7 +366,18 @@ const ModerateSingleItem = (props: {
       >
         Delete
       </button>
-    </form>
+      {nestedModels?.map((model: any) => {
+        const { modelName, reactElements } = model;
+        if (reactElements.length > 0)
+          return (
+            <div className="nested" key={modelName}>
+              <b>{modelName}</b>
+              {reactElements}
+            </div>
+          )
+        else return null
+      })}
+    </div>
   )
 }
 

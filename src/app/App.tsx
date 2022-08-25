@@ -10,6 +10,7 @@ import Admin from '../components/Admin/Admin';
 import ModerateProducts from '../components/Admin/ModerateProducts/ModerateProducts';
 import ModerateCategories from '../components/Admin/ModerateCategories/ModerateCategories';
 import ModerateSubcategories from '../components/Admin/ModerateSubcategories /ModerateSubcategories';
+import ModerateCharacteristics from '../components/Admin/ModerateCharacteristics/ModerateCharacteristics';
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
             <Route path='products' element={<ModerateProducts />} />
             <Route path="categories" element={<ModerateCategories />} />
             <Route path="subcategories" element={<ModerateSubcategories />} />
+            <Route path="characteristics" element={<ModerateCharacteristics />} />
           </Route>
         </Route>
       </Routes>

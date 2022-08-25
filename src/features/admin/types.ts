@@ -16,8 +16,23 @@ export interface Subcategory {
   name: string,
 }
 
+export interface Characteristic {
+  id: number,
+  value: string,
+  characteristic_name_id: number,
+  product_id: number,
+}
+
+export interface CharacteristicName {
+  id: number,
+  name: string,
+  for_subcategory: number,
+}
+
 export interface AdminState {
   products: Product[],
   categories: Category[],
   subcategories: Subcategory[],
+  characteristics: Characteristic[],
+  characteristic_names: CharacteristicName[],
 }
