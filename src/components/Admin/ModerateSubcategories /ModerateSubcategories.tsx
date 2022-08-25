@@ -9,12 +9,17 @@ const ModerateSubcategories = () => {
 
   useEffect(() => {
     dispatch(fetchItems("subcategories"))
+    dispatch(fetchItems("categories"))
   }, [])
 
-  const items = useAppSelector(state => state.admin.subcategories);
+  const subcategories = useAppSelector(state => state.admin.subcategories);
+  const categories = useAppSelector(state => state.admin.categories);
+  const items = subcategories;
+
   const modelName = "subcategories";
   const fieldsDefinition = [
-    { fieldName: 'name', fieldType: "input" }
+    { fieldName: 'name', fieldType: "input" },
+    { fieldName: 'category_id', fieldType: "select", values: categories },
   ];
 
   return (

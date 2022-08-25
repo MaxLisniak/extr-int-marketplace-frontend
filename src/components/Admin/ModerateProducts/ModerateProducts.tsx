@@ -9,15 +9,19 @@ const ModerateProducts = () => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(fetchItems("products"))
+    dispatch(fetchItems("products"));
+    dispatch(fetchItems("subcategories"));
   }, [])
 
-  const items = useAppSelector(state => state.admin.products);
+  const products = useAppSelector(state => state.admin.products);
+  const subcategories = useAppSelector(state => state.admin.subcategories);
+  const items = products;
   const modelName = "products";
   const fieldsDefinition = [
     { fieldName: "name", fieldType: "input" },
     { fieldName: "description", fieldType: "input" },
     { fieldName: "image_url", fieldType: "textarea" },
+    { fieldName: "subcategory_id", fieldType: "select", values: subcategories }
   ];
 
   return (

@@ -16,6 +16,7 @@ const ModerateCategories = () => {
 
   const modelName = "categories";
   const items = useAppSelector(state => state.admin.categories);
+
   const fieldsDefinition = [
     { fieldName: "name", fieldType: "input" }
   ];

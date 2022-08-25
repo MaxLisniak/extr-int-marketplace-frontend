@@ -6,7 +6,7 @@ import React from "react";
 
 const ModerateSingleItem = (props: {
   items: any[],
-  fieldsDefinition: { fieldName: string, fieldType: string }[],
+  fieldsDefinition: { fieldName: string, fieldType: string, values?: any[] }[],
   id: number,
   modelName: string,
   deleteItem: Function,
@@ -24,17 +24,19 @@ const ModerateSingleItem = (props: {
     originalValue: string,
     prevValue?: string,
     fieldType: string,
+    values?: [] | undefined
   }
 
   useEffect(() => {
     const filledFields: any = {};
     for (const field of props.fieldsDefinition) {
-      const { fieldName, fieldType } = field;
+      const { fieldName, fieldType, values } = field;
       filledFields[fieldName] = {}
       filledFields[fieldName].editing = false;
       filledFields[fieldName].fieldType = fieldType;
       filledFields[fieldName].value = item[fieldName];
       filledFields[fieldName].originalValue = item[fieldName];
+      if (values) filledFields[fieldName].values = values;
     }
     setFields(filledFields);
   }, [item, props])
@@ -118,7 +120,36 @@ const ModerateSingleItem = (props: {
                 })
               }}
             />
-            : null
+            : field.fieldType === "select" ?
+              <select
+                id={`${fieldName}-field-${item.id}`}
+                disabled={!field.editing}
+                style={{
+                  backgroundColor: field.editing ?
+                    "unset" :
+                    field.value === field.originalValue ?
+                      "unset" :
+                      "rgb(236, 236, 173)"
+                }}
+                value={field.value || ""}
+                onChange={(e) => {
+                  setFields({
+                    ...fields,
+                    [fieldName]: { ...field, value: Number(e.target.value), }
+                  })
+                }}
+              >
+                {field.values?.map((value: { id: number, name: string }) => {
+                  return <option
+                    key={value.id}
+                    value={value.id}
+                    selected={value.id === Number(field.value)}
+                  >
+                    {`${value.id}: ${value.name}`}
+                  </option>
+                })}
+              </select>
+              : null
         }
         <div className="buttons">
           <button
