@@ -27,10 +27,6 @@ const ModerateCategories = () => {
       fieldType: "textInput",
       editable: true,
     },
-    // subcategories: {
-    //   fieldType: "list",
-    //   editable: false,
-    // },
   };
 
   const nestedModelsDefinition = {

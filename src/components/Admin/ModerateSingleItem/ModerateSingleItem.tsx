@@ -1,9 +1,8 @@
 import "./ModerateSingleItem.scss";
 import { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { useAppDispatch } from "../../../app/hooks";
 import { updateItem } from "../../../features/admin/thunks";
 import React from "react";
-import { AdminState } from "../../../features/admin/types";
 
 const ModerateSingleItem = (props: {
   items: any[],
@@ -16,9 +15,6 @@ const ModerateSingleItem = (props: {
 }) => {
 
   const dispatch = useAppDispatch();
-  // const item = useAppSelector(state =>
-  //   state.admin[props.modelName as keyof AdminState]
-  // )[props.i];
   const item = props.items[props.i];
   const parentId = item["id"];
   const [fields, setFields] = useState({})
@@ -31,13 +27,6 @@ const ModerateSingleItem = (props: {
     fieldType: string,
     values?: [] | undefined,
     editable: boolean,
-    // nestedProperties?: {
-    // items?: any[],
-    // modelName?: string,
-    // fieldsDefinition?: {},
-    // deleteItem?: Function,
-    // reference_key: number,
-    // },
   }
   interface NestedModel {
     items: any[],
@@ -56,13 +45,6 @@ const ModerateSingleItem = (props: {
             fieldType: string,
             values: { id: number, name: {} }[],
             editable: boolean,
-            // nestedProperties: {
-            //   items?: [],
-            //   modelName?: string,
-            //   fieldsDefinition?: {},
-            //   deleteItem?: Function,
-            //   reference_key?: number,
-            // },
           }
         ];
       const { fieldType, values, editable } = fieldProperties;
@@ -76,9 +58,6 @@ const ModerateSingleItem = (props: {
         filledFields[fieldName].values = values;
       if (fieldType === "list")
         filledFields[fieldName].values = filledFields[fieldName].value;
-      // if (fieldType === "nested")
-      //   filledFields[fieldName].nestedProperties = fieldProperties.nestedProperties
-
     }
     setFields(filledFields);
 
@@ -336,8 +315,6 @@ const ModerateSingleItem = (props: {
         })
     )
   }
-
-  // console.log(...nestedModels)
 
   return (
     <div className="moderate-item">

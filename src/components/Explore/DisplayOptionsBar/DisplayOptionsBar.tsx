@@ -40,7 +40,6 @@ const DisplayOptionsBar = () => {
         <img src={Filter} alt="" />
         <span>Filter</span>
       </div>
-      {/* <div className="item category">Category: Phones</div> */}
     </div>
   )
 }

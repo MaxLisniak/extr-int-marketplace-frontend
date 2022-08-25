@@ -9,7 +9,7 @@ import { ProductBrief } from './Items/Item/Item';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import configuredAxios from '../../axios/axios';
 import { useParams } from 'react-router-dom';
-import { Category, setActiveCategoryName } from '../../features/filter/filterSlice';
+import { setActiveCategoryName } from '../../features/filter/filterSlice';
 
 const Explore = () => {
   const dispatch = useAppDispatch();
@@ -21,7 +21,6 @@ const Explore = () => {
   const maxPrice = useAppSelector(state => state.filter.maxPrice);
   const selectedCharacteristics = useAppSelector(state => state.filter.selectedCharacteristics);
 
-  // const categories = useAppSelector(state => state.filter.categories);
   const { categoryName } = useParams();
   const selectedCategoryName = useAppSelector(state => state.filter.selectedCategoryName);
 

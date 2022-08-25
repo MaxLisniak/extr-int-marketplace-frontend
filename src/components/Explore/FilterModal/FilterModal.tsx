@@ -19,7 +19,6 @@ const FilterModal = () => {
   const filterVisible = useAppSelector(state => state.filter.filterVisible);
 
   useEffect(() => {
-    // if (characteristicNames.length === 0) {
     console.log(selectedSubcategory, selectedCategoryName)
     configuredAxios.get("/characteristic_names/parameterized/", {
       params: {
@@ -31,7 +30,6 @@ const FilterModal = () => {
         if (res.data != "no categories")
           setCharacteristicNames(res.data)
       })
-    // }
   }, [selectedSubcategory, selectedCategoryName])
 
   useEffect(() => {
@@ -55,13 +53,11 @@ const FilterModal = () => {
           <Collapsible label="Categories">
             <SubcategoriesFilter />
           </Collapsible>
-          {/* <hr /> */}
         </> : null
       }
       <Collapsible label="Price">
         <PriceFilter />
       </Collapsible>
-      {/* <hr /> */}
       {
         characteristicNames.map((characteristicName:
           {
@@ -79,13 +75,9 @@ const FilterModal = () => {
               <Collapsible label={characteristicName.name} >
                 <CharacteristicFilter
                   characteristics={characteristicName.characteristics}
-                // allCheckedCharacteristics={allCheckedCharacteristics}
-                // setAllCheckedCharacteristics={setAllCheckedCharacteristics}
                 />
               </Collapsible>
-              {/* <hr /> */}
             </React.Fragment>
-
           )
         })
       }

@@ -13,7 +13,6 @@ const Items = (props: { products: ProductBrief[] }) => {
             return <Item product={product} key={product.id} />
           }) :
           <h1>Nothing Found</h1>
-
       }
     </div>
   )

@@ -71,8 +71,6 @@ export const Item = (props: { product: ProductBrief }) => {
         <li><img src={ThumbDown} alt="" /><span>100</span></li>
       </ul>
     </div>
-    {/* <div className="card-content">
-    </div> */}
 
   </div>
 }

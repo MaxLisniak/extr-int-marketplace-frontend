@@ -21,7 +21,6 @@ const Admin = () => {
         </Link>
       </ul>
       <Outlet />
-      {/* <ModerateProducts /> */}
     </div>
   )
 }
