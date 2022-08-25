@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { deleteItem, fetchItems, updateItem } from "./thunks";
+import { deleteCategory, deleteProduct, deleteSubcategory, fetchItems, updateItem } from "./thunks";
 import { AdminState } from "./types";
 
 const initialState: AdminState = {
@@ -29,14 +29,31 @@ export const adminSlice = createSlice({
         }
       })
     builder
-      .addCase(deleteItem.fulfilled, (state, action) => {
-        const id = action.payload?.id;
-        const modelName = action.payload?.modelName;
-        state[modelName as keyof AdminState] =
-          state[modelName as keyof AdminState]
-            .filter(item => {
-              return item.id !== id;
-            })
+      .addCase(deleteProduct.fulfilled, (state, action) => {
+        const id = action.payload;
+        const updatedProducts = state.products
+          .filter(item => {
+            return item.id !== id;
+          })
+        state.products = updatedProducts;
+      })
+    builder
+      .addCase(deleteCategory.fulfilled, (state, action) => {
+        const id = action.payload;
+        const updatedCategories = state.categories
+          .filter(item => {
+            return item.id !== id;
+          })
+        state.categories = updatedCategories;
+      })
+    builder
+      .addCase(deleteSubcategory.fulfilled, (state, action) => {
+        const id = action.payload;
+        const updatedSubcategories = state.subcategories
+          .filter(item => {
+            return item.id !== id;
+          })
+        state.subcategories = updatedSubcategories;
       })
   }
 })

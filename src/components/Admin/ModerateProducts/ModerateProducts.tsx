@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { fetchItems } from "../../../features/admin/thunks";
-import ModerateItems from "../ModerateItems/ModerateItems";
+import { deleteProduct, fetchItems } from "../../../features/admin/thunks";
+import ModerateSingleItem from "../ModerateSingleItem/ModerateSingleItem";
 
 
 const ModerateProducts = () => {
@@ -12,14 +12,30 @@ const ModerateProducts = () => {
     dispatch(fetchItems("products"))
   }, [])
 
-  const products = useAppSelector(state => state.admin.products);
+  const items = useAppSelector(state => state.admin.products);
+  const modelName = "products";
+  const fieldsDefinition = ["name", "description", "image_url"];
 
   return (
-    <ModerateItems
-      items={products}
-      modelName={"products"}
-      fieldsDefinition={["name", "description", "image_url"]}
-    />
+    <div className="moderate-items">
+      <h2>Moderate {modelName}</h2>
+      {
+        items.map((item, id) => {
+          return (
+            <ModerateSingleItem
+              modelName={modelName}
+              items={items}
+              fieldsDefinition={fieldsDefinition}
+              id={id}
+              deleteItem={deleteProduct}
+              key={`${modelName}-${item.id}-form`}
+            >
+            </ModerateSingleItem>
+          )
+        })
+      }
+
+    </div>
   )
 }
 

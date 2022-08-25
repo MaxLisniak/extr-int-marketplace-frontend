@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { fetchItems } from "../../../features/admin/thunks";
-import ModerateItems from "../ModerateItems/ModerateItems";
+import { deleteSubcategory, fetchItems } from "../../../features/admin/thunks";
+import ModerateSingleItem from "../ModerateSingleItem/ModerateSingleItem";
 
 const ModerateSubcategories = () => {
 
@@ -11,14 +11,30 @@ const ModerateSubcategories = () => {
     dispatch(fetchItems("subcategories"))
   }, [])
 
-  const subcategories = useAppSelector(state => state.admin.subcategories);
+  const items = useAppSelector(state => state.admin.subcategories);
+  const modelName = "subcategories";
+  const fieldsDefinition = ['name'];
 
   return (
-    <ModerateItems
-      items={subcategories}
-      modelName={"subcategories"}
-      fieldsDefinition={["name"]}
-    />
+    <div className="moderate-items">
+      <h2>Moderate {modelName}</h2>
+      {
+        items.map((item, id) => {
+          return (
+            <ModerateSingleItem
+              modelName={modelName}
+              items={items}
+              fieldsDefinition={fieldsDefinition}
+              id={id}
+              key={`${modelName}-${item.id}-form`}
+              deleteItem={deleteSubcategory}
+            >
+            </ModerateSingleItem>
+          )
+        })
+      }
+
+    </div>
   )
 }
 

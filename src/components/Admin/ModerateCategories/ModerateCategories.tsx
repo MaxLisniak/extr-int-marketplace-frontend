@@ -1,7 +1,9 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { fetchItems } from "../../../features/admin/thunks";
-import ModerateItems from "../ModerateItems/ModerateItems";
+import { deleteCategory, fetchItems } from "../../../features/admin/thunks";
+import { Subcategory } from "../../../features/admin/types";
+import ModerateSingleItem from "../ModerateSingleItem/ModerateSingleItem";
+import "../ModerateItems/ModerateItems.scss";
 
 const ModerateCategories = () => {
 
@@ -11,14 +13,41 @@ const ModerateCategories = () => {
     dispatch(fetchItems("categories"))
   }, [])
 
-  const categories = useAppSelector(state => state.admin.categories);
+  const modelName = "categories";
+  const items = useAppSelector(state => state.admin.categories);
+  const fieldsDefinition = ["name"];
 
   return (
-    <ModerateItems
-      items={categories}
-      modelName={"categories"}
-      fieldsDefinition={["name"]}
-    />
+    <div className="moderate-items">
+      <h2>Moderate {modelName}</h2>
+      {
+        items.map((item, id) => {
+          return (
+            <ModerateSingleItem
+              modelName={modelName}
+              items={items}
+              fieldsDefinition={fieldsDefinition}
+              id={id}
+              key={`${modelName}-${item.id}-form`}
+              deleteItem={deleteCategory}
+            >
+
+              {
+                (item.subcategories?.length > 0)
+              }
+              <p>Has subcategories:</p>
+              <ul>
+                {item?.subcategories?.map((subcategory: Subcategory) => {
+                  return <li key={subcategory.id}>{subcategory.name}</li>
+                })}
+              </ul>
+
+            </ModerateSingleItem>
+          )
+        })
+      }
+
+    </div>
   )
 }
 

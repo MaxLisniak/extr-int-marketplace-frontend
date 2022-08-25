@@ -1,13 +1,16 @@
 import "./ModerateSingleItem.scss";
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../../app/hooks";
-import { deleteItem, updateItem } from "../../../features/admin/thunks";
+import { updateItem } from "../../../features/admin/thunks";
+import React from "react";
 
 const ModerateSingleItem = (props: {
   items: any[],
   fieldsDefinition: string[],
   id: number,
   modelName: string,
+  deleteItem: Function,
+  children?: React.ReactNode
 }) => {
 
   const dispatch = useAppDispatch();
@@ -181,6 +184,7 @@ const ModerateSingleItem = (props: {
         />
       </div>
       <>{formInputs}</>
+      {props.children}
       <button
         disabled={isEditing || !hasChanges}
         onClick={() => {
@@ -197,12 +201,7 @@ const ModerateSingleItem = (props: {
       <button
         className="delete"
         onClick={() => dispatch(
-          deleteItem(
-            {
-              modelName: props.modelName,
-              id: item.id
-            }
-          )
+          props.deleteItem(item.id)
         )
         }
       >

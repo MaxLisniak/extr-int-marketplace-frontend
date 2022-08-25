@@ -1,18 +1,19 @@
 export interface Product {
   id: number,
-  name?: string,
-  description?: string,
-  image_url?: string,
+  name: string,
+  description: string,
+  image_url: string,
 }
 
 export interface Category {
   id: number,
-  name?: string
+  name: string,
+  subcategories: Subcategory[]
 }
 
 export interface Subcategory {
   id: number,
-  name?: string,
+  name: string,
 }
 
 export interface AdminState {
