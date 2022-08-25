@@ -25,11 +25,16 @@
     }
 
     textarea,
-    input {
+    input,
+    select {
       border: 1px solid grey;
       border-radius: 3px;
       padding: 3px;
       font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+
+    .list {
+      padding-left: 20px;
     }
   }
 
