@@ -12,14 +12,26 @@ const ModerateCategories = () => {
 
   useEffect(() => {
     dispatch(fetchItems("categories"))
+    dispatch(fetchItems("subcategories"))
   }, [])
 
   const modelName = "categories";
-  const items = useAppSelector(state => state.admin.categories);
+  const categories = useAppSelector(state => state.admin.categories);
+  const items = categories;
 
-  const fieldsDefinition = [
-    { fieldName: "name", fieldType: "input" }
-  ];
+  const fieldsDefinition = {
+    id: {
+      fieldType: "textInput",
+      editable: false,
+    },
+    name: {
+      fieldType: "textInput",
+    },
+    subcategories: {
+      fieldType: "list",
+      editable: false,
+    }
+  };
 
   return (
     <div className="moderate-items">
@@ -35,18 +47,6 @@ const ModerateCategories = () => {
               key={`${modelName}-${item.id}-form`}
               deleteItem={deleteCategory}
             >
-
-              {
-                (item.subcategories?.length > 0) ?
-                  <>
-                    <p>Has subcategories:</p>
-                    <ul className="subcategories">
-                      {item?.subcategories?.map((subcategory: Subcategory) => {
-                        return <li key={subcategory.id}>{subcategory.name}</li>
-                      })}
-                    </ul>
-                  </> : null
-              }
 
             </ModerateSingleItem>
           )

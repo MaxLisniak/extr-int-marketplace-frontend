@@ -17,10 +17,19 @@ const ModerateSubcategories = () => {
   const items = subcategories;
 
   const modelName = "subcategories";
-  const fieldsDefinition = [
-    { fieldName: 'name', fieldType: "input" },
-    { fieldName: 'category_id', fieldType: "select", values: categories },
-  ];
+  const fieldsDefinition = {
+    id: {
+      fieldType: "textInput",
+      editable: false,
+    },
+    name: {
+      fieldType: "textInput",
+    },
+    category_id: {
+      fieldType: "select",
+      values: categories,
+    },
+  };
 
   return (
     <div className="moderate-items">
