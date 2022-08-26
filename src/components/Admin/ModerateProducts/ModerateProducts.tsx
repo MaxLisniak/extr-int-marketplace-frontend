@@ -12,12 +12,14 @@ const ModerateProducts = () => {
     dispatch(fetchItems("products"));
     dispatch(fetchItems("subcategories"));
     dispatch(fetchItems("characteristics"));
+    dispatch(fetchItems("characteristic_names"));
   }, [])
 
   const products = useAppSelector(state => state.admin.products);
   const subcategories = useAppSelector(state => state.admin.subcategories);
   const characteristics = useAppSelector(state => state.admin.characteristics);
-  const characteristic_names = useAppSelector(state => state.admin.characteristic_names)
+  const characteristic_names = useAppSelector(state => state.admin.characteristic_names);
+  console.log(characteristic_names)
   const items = products;
   const modelName = "products";
 

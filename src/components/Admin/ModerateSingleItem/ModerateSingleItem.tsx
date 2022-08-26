@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../../app/hooks";
 import { updateItem } from "../../../features/admin/thunks";
 import React from "react";
+import EditButtons from "../EditButtons/EditButtons";
 
 const ModerateSingleItem = (props: {
   items: any[],
@@ -98,6 +99,25 @@ const ModerateSingleItem = (props: {
 
   const formInputs = Object.entries(fields).map((entry) => {
     const [fieldName, field] = entry as [string, Field];
+    const inputFieldsProps = {
+      style: {
+        backgroundColor: field.editing ?
+          "unset" :
+          field.value === field.originalValue ?
+            "unset" :
+            "rgb(151, 183, 244)"
+      },
+      disabled: !field.editing,
+      // autoComplete: "off",
+      id: `${fieldName}-field-${item.id}`,
+      value: field.value || "",
+      // onChange: (e: any) => {
+      //   setFields({
+      //     ...fields,
+      //     [fieldName]: { ...field, value: Number(e.target.value), }
+      //   })
+      // }
+    }
     return (
       <div className="input" key={`${fieldName}-for-${item.id}`}>
         <label htmlFor={`${fieldName}-field-${item.id}`}>{fieldName}</label>
@@ -107,21 +127,11 @@ const ModerateSingleItem = (props: {
 
           field.fieldType === "textarea" ?
             <textarea
-              style={{
-                backgroundColor: field.editing ?
-                  "unset" :
-                  field.value === field.originalValue ?
-                    "unset" :
-                    "rgb(151, 183, 244)"
-              }}
-              disabled={!field.editing}
-              autoComplete="off"
-              id={`${fieldName}-field-${item.id}`}
-              value={field.value || ""}
-              onChange={(e) => {
+              {...inputFieldsProps}
+              onChange={(e: any) => {
                 setFields({
                   ...fields,
-                  [fieldName]: { ...field, value: e.target.value, }
+                  [fieldName]: { ...field, value: e.target.value }
                 })
               }}
             />
@@ -130,18 +140,9 @@ const ModerateSingleItem = (props: {
 
             : field.fieldType === "textInput" ?
               <input
-                style={{
-                  backgroundColor: field.editing ?
-                    "unset" :
-                    field.value === field.originalValue ?
-                      "unset" :
-                      "rgb(151, 183, 244)"
-                }}
-                disabled={!field.editing}
+                {...inputFieldsProps}
                 type="text"
                 autoComplete="off"
-                id={`${fieldName}-field-${item.id}`}
-                value={field.value || ""}
                 onChange={(e) => {
                   setFields({
                     ...fields,
@@ -154,16 +155,7 @@ const ModerateSingleItem = (props: {
 
               : field.fieldType === "select" ?
                 <select
-                  id={`${fieldName}-field-${item.id}`}
-                  disabled={!field.editing}
-                  style={{
-                    backgroundColor: field.editing ?
-                      "unset" :
-                      field.value === field.originalValue ?
-                        "unset" :
-                        "rgb(151, 183, 244)"
-                  }}
-                  value={field.value || ""}
+                  {...inputFieldsProps}
                   onChange={(e) => {
                     setFields({
                       ...fields,
@@ -196,88 +188,15 @@ const ModerateSingleItem = (props: {
                   : null
         }
         {
-
-          // EDIT 
-
           field.editable ?
-            <div className="buttons">
-              <button
-                disabled={field.editing}
-                onClick={
-                  () =>
-                    setFields(
-                      {
-                        ...fields,
-                        [fieldName]: {
-                          ...field,
-                          editing: true,
-                          prevValue: field.value
-                        }
-                      }
-                    )
-                }>
-                Edit
-              </button>
-
-              {/* SAVE  */}
-
-              <button
-                disabled={!field.editing}
-                onClick={
-                  () =>
-                    setFields(
-                      {
-                        ...fields,
-                        [fieldName]: {
-                          ...field,
-                          editing: false,
-                          prevValue: undefined
-                        }
-                      }
-                    )
-                }>
-                Save
-              </button>
-
-              {/* CANCEL  */}
-
-              <button
-                disabled={!field.editing}
-                onClick={
-                  () =>
-                    setFields(
-                      {
-                        ...fields,
-                        [fieldName]: {
-                          ...field,
-                          editing: false,
-                          value: field.prevValue
-                        }
-                      }
-                    )
-                }>
-                Cancel
-              </button>
-
-              {/* RESET  */}
-
-              <button
-                disabled={field.value === field.originalValue}
-                onClick={
-                  () =>
-                    setFields(
-                      {
-                        ...fields,
-                        [fieldName]: {
-                          ...field,
-                          value: field.originalValue
-                        }
-                      }
-                    )
-                }>
-                Reset
-              </button>
-            </div>
+            <EditButtons
+              fieldContext={{
+                field,
+                fieldName,
+                fields,
+                setFields
+              }}
+            />
             : null
         }
       </div>
