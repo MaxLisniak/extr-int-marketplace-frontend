@@ -1,8 +1,8 @@
+import "../ModerateItems/ModerateItems.scss";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { deleteCategory, deleteCharacteristic, deleteCharacteristicName, deleteProduct, deleteSubcategory, fetchItems, updateCategory, updateCharacteristic, updateCharacteristicName, updateProduct, updateSubcategory } from "../../../features/admin/thunks";
 import ModerateSingleItem from "../ModerateSingleItem/ModerateSingleItem";
-import "../ModerateItems/ModerateItems.scss";
 import CreateItem from "../CreateItem/CreateItem";
 
 const ModerateCategories = () => {

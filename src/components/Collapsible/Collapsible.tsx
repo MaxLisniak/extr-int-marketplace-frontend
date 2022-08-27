@@ -1,7 +1,7 @@
 import "./Collapsible.scss"
+import { useState } from "react";
 import Arrow from "./assets/arrow.png";
 
-import { useState } from "react";
 
 
 const Collapsible = (props: { label: string, openByDefault: boolean, children?: any }) => {

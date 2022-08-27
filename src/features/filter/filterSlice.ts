@@ -1,49 +1,18 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import axios from "axios";
-
-export interface Subcategory {
-  id: number,
-  name: string,
-  category_id: number,
-}
-
-export interface Category {
-  id: number,
-  name: string,
-  subcategories: Subcategory[],
-}
-export interface FilterState {
-  minPrice: number,
-  maxPrice: number,
-  categories: Category[],
-  selectedSubcategory: Subcategory | null,
-  selectedCategoryName: string | null,
-  priceOrder: 'desc' | 'asc',
-  selectedCharacteristics: any,
-  filterVisible: boolean,
-  displayAs: "rows" | "tiles",
-
-}
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { fetchCategories, fetchCharacteristicsForSubcategory } from './thunks';
+import { Category, CharacteristicName, FilterState, Subcategory } from './types';
 
 const initialState: FilterState = {
   minPrice: 1,
   maxPrice: 1000,
   categories: [],
   priceOrder: 'desc',
-  selectedSubcategory: null,
-  selectedCategoryName: null,
-  selectedCharacteristics: {},
+  activeCategory: undefined,
+  activeSubcategory: undefined,
+  characteristicNames: [],
   filterVisible: true,
   displayAs: "rows",
 };
-export const fetchCategories = createAsyncThunk<
-  Category[]
->
-  ('filter/fetchCategories', async () => {
-    const response = await axios.get('http://localhost:3000/categories/extended/');
-    return response.data;
-  }
-  )
 
 export const filterSlice = createSlice({
   name: 'filter',
@@ -58,21 +27,48 @@ export const filterSlice = createSlice({
     setPriceOrder: (state, action: PayloadAction<'asc' | 'desc'>) => {
       state.priceOrder = action.payload;
     },
-    setActiveSubcategory: (state, action: PayloadAction<Subcategory>) => {
-      state.selectedSubcategory = action.payload;
+    setActiveSubcategory: (state, action: PayloadAction<Subcategory | undefined>) => {
+      state.activeSubcategory = action.payload;
     },
-    setActiveCategoryName: (state, action: PayloadAction<string | null>) => {
-      state.selectedCategoryName = action.payload;
+    setActiveCategory: (state, action: PayloadAction<Category | undefined>) => {
+      state.activeCategory = action.payload;
     },
-    selectCharacteristics: (state, action: PayloadAction<{}>) => {
-      state.selectedCharacteristics = action.payload;
+    selectCharacteristics: (state, action: PayloadAction<{
+      characteristicName: string,
+      characteristicValue: string
+    }>) => {
+      const modified = state.characteristicNames
+        .find(characteristicName =>
+          characteristicName.name === action.payload.characteristicName
+        )
+        ?.characteristics.map(characteristicValue => {
+          if (characteristicValue.value === action.payload.characteristicValue) {
+            if (!characteristicValue.selected)
+              return { ...characteristicValue, selected: true }
+            else {
+              return { ...characteristicValue, selected: false }
+            }
+          }
+          else return characteristicValue
+        })
     },
-    selectCharacteristicsForName: (state, action: PayloadAction<{ characteristic_name_id: number, value: string }>) => {
-      let characteristicsForName = state.selectedCharacteristics[action.payload.characteristic_name_id as keyof {}] as string[]
-      !characteristicsForName.includes(action.payload.value) ?
-        characteristicsForName.push(action.payload.value) :
-        characteristicsForName = characteristicsForName.filter(value => value !== action.payload.value)
-      state.selectedCharacteristics[action.payload.characteristic_name_id as keyof {}] = characteristicsForName
+    toggleCharacteristic: (state, action: PayloadAction<{
+      name: string,
+      characteristicId: number
+    }>) => {
+      for (let i = 0; i < state.characteristicNames.length; i++) {
+        if (state.characteristicNames[i].name === action.payload.name) {
+          state.characteristicNames[i].characteristics =
+            state.characteristicNames[i].characteristics
+              .map(characteristic => {
+                if (characteristic.id === action.payload.characteristicId) {
+                  if (characteristic.selected)
+                    return { ...characteristic, selected: false }
+                  else return { ...characteristic, selected: true }
+                } else return characteristic
+              })
+        }
+      }
     },
     toggleFilterVisibility: (state) => {
       state.filterVisible = !state.filterVisible;
@@ -90,6 +86,10 @@ export const filterSlice = createSlice({
       .addCase(fetchCategories.fulfilled, (state, action) => {
         state.categories = action.payload;
       })
+    builder
+      .addCase(fetchCharacteristicsForSubcategory.fulfilled, (state, action) => {
+        state.characteristicNames = action.payload;
+      })
   }
 })
 
@@ -98,9 +98,8 @@ export const {
   setMaxPrice,
   setPriceOrder,
   setActiveSubcategory,
-  setActiveCategoryName,
-  selectCharacteristics,
-  selectCharacteristicsForName,
+  setActiveCategory,
+  toggleCharacteristic,
   toggleFilterVisibility,
   toggleView,
 

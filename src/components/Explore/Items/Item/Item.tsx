@@ -4,6 +4,7 @@ import StarYellow from './assets/star-yellow.png';
 import ThumbUp from './assets/thumb-up.png';
 import ThumbDown from './assets/thumb-down.png';
 import Eye from './assets/eye.png';
+import NoImage from './assets/no-image.png';
 
 import Tag from './assets/tag.png';
 import { useAppSelector } from '../../../../app/hooks';
@@ -27,8 +28,9 @@ export interface ProductBrief {
 }
 export const Item = (props: { product: ProductBrief }) => {
 
+  const characteristicNames = useAppSelector(state => state.filter.characteristicNames);
   const displayAs = useAppSelector(state => state.filter.displayAs);
-  const selectedCharacteristics = useAppSelector(state => state.filter.selectedCharacteristics)
+  // const selectedCharacteristics = useAppSelector(state => state.filter.selectedCharacteristics)
   return <div className={`product-card ${displayAs}`}>
     <div className="star">
       <img src={StarWhite} alt="" />
@@ -38,18 +40,20 @@ export const Item = (props: { product: ProductBrief }) => {
         {props.product.image_url ?
           <img src={props.product.image_url} alt="" /> :
 
-          <img src="https://cdn.icon-icons.com/icons2/510/PNG/512/at_icon-icons.com_50456.png" alt="" />
+          <img src={NoImage} alt="" />
         }
       </div>
       <div className="text">
         <h2>{props.product.name}</h2>
         <ul>{props.product.characteristics
           .filter(characteristic => {
-            if (selectedCharacteristics[characteristic.characteristic_name.id]
-              ?.length > 0) {
-              return true;
-            }
-            return false
+            const foundCharacteristic = characteristicNames.find(characteristicName =>
+              characteristicName.name === characteristic.characteristic_name.name
+            )
+            return foundCharacteristic?.characteristics
+              .filter(characteristic => characteristic.selected)
+              .map(characteristic => characteristic.value)
+              .includes(characteristic.value)
           })
           .map(characteristic => {
             return (

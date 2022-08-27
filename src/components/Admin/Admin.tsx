@@ -1,6 +1,5 @@
 import "./Admin.scss";
 import { Link, Outlet } from "react-router-dom";
-import { useAppSelector } from "../../app/hooks";
 
 const Admin = () => {
   return (

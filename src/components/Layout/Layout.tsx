@@ -1,7 +1,7 @@
-import Sidebar from "./Sidebar/Sidebar";
 import "./Layout.scss";
-import Navbar from "./Navbar/Navbar";
 import { Outlet } from "react-router-dom";
+import Sidebar from "./Sidebar/Sidebar";
+import Navbar from "./Navbar/Navbar";
 
 const Layout = (props: any) => {
 

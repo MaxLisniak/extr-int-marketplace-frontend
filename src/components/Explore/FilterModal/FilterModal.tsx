@@ -1,84 +1,77 @@
 import './FilterModal.scss'
+import { useAppDispatch, useAppSelector } from '../../../app/hooks'
+import { CharacteristicName } from '../../../features/filter/types'
+import React from 'react'
 import Collapsible from '../../Collapsible/Collapsible'
 import PriceFilter from './PriceFilter/PriceFilter'
 import SubcategoriesFilter from './SubcategoriesFilter/SubcategoriesFilter'
-import { useEffect, useState } from 'react'
-import configuredAxios from '../../../axios/axios'
-import { useAppDispatch, useAppSelector } from '../../../app/hooks'
-import React from 'react'
 import CharacteristicFilter from './CharactersticFilter/CharacteristicFilter'
-import { selectCharacteristics } from '../../../features/filter/filterSlice'
 
 const FilterModal = () => {
 
   const dispatch = useAppDispatch();
-  const [characteristicNames, setCharacteristicNames] = useState<any[]>([])
-  const selectedSubcategory = useAppSelector(state => state.filter.selectedSubcategory)
-  const selectedCategoryName = useAppSelector(state => state.filter.selectedCategoryName)
-  const [allCheckedCharacteristics, setAllCheckedCharacteristics] = useState({});
+
+  // const [characteristicNames, setCharacteristicNames] = useState<any[]>([])
+  const activeCategory = useAppSelector(state => state.filter.activeCategory)
+  const activeSubcategory = useAppSelector(state => state.filter.activeSubcategory)
   const filterVisible = useAppSelector(state => state.filter.filterVisible);
+  const characteristicNames = useAppSelector(state => state.filter.characteristicNames);
+  // const [allCheckedCharacteristics, setAllCheckedCharacteristics] = useState({});
 
-  useEffect(() => {
-    console.log(selectedSubcategory, selectedCategoryName)
-    configuredAxios.get("/characteristic_names/parameterized/", {
-      params: {
-        selectedSubcategoryName: selectedSubcategory?.name,
-        selectedCategoryName
-      }
-    })
-      .then(res => {
-        if (res.data != "no categories")
-          setCharacteristicNames(res.data)
-      })
-  }, [selectedSubcategory, selectedCategoryName])
+  // useEffect(() => {
+  //   console.log(selectedSubcategory, selectedCategoryName)
+  //   configuredAxios.get("/characteristic_names/parameterized/", {
+  //     params: {
+  //       selectedSubcategoryName: selectedSubcategory?.name,
+  //       selectedCategoryName
+  //     }
+  //   })
+  //     .then(res => {
+  //       if (res.data != "no categories")
+  //         setCharacteristicNames(res.data)
+  //     })
+  // }, [selectedSubcategory, selectedCategoryName])
 
-  useEffect(() => {
-    setAllCheckedCharacteristics(
-      characteristicNames
-        .map(c => c.id)
-        .reduce((a, v) => ({ ...a, [v]: [] }), {})
-    )
-  }, [characteristicNames])
+  // useEffect(() => {
+  //   setAllCheckedCharacteristics(
+  //     characteristicNames
+  //       .map(c => c.id)
+  //       .reduce((a, v) => ({ ...a, [v]: [] }), {})
+  //   )
+  // }, [characteristicNames])
 
-  useEffect(() => {
-    dispatch(selectCharacteristics(allCheckedCharacteristics))
-  }, [allCheckedCharacteristics])
+  // useEffect(() => {
+  //   dispatch(selectCharacteristics(allCheckedCharacteristics))
+  // }, [allCheckedCharacteristics])
 
-  if (!selectedCategoryName) return null
+  // if (!selectedCategoryName) return null
 
   return (
     <div className="filter-modal" style={filterVisible ? { display: "block" } : { display: "none" }}>
-      {selectedCategoryName ?
+      {activeCategory ?
         <>
           <Collapsible openByDefault={false} label="Categories">
             <SubcategoriesFilter />
           </Collapsible>
         </> : null
       }
-      <Collapsible openByDefault={false} label="Price">
+      <Collapsible openByDefault={true} label="Price">
         <PriceFilter />
       </Collapsible>
       {
-        characteristicNames.map((characteristicName:
-          {
-            id: number,
-            name: string,
-            characteristics: {
-              id: number,
-              value: string,
-              characteristic_name_id: number
-            }[]
+        characteristicNames.map((characteristicName: CharacteristicName) => {
+          if (characteristicName.characteristics.length > 0) {
+            return (
+              <React.Fragment key={characteristicName.id}>
+                <Collapsible openByDefault={true} label={characteristicName.name} >
+                  <CharacteristicFilter
+                    characteristicNameNameValue={characteristicName.name}
+                  />
+                </Collapsible>
+              </React.Fragment>
+            )
           }
-        ) => {
-          return (
-            <React.Fragment key={characteristicName.id}>
-              <Collapsible openByDefault={true} label={characteristicName.name} >
-                <CharacteristicFilter
-                  characteristics={characteristicName.characteristics}
-                />
-              </Collapsible>
-            </React.Fragment>
-          )
+          else return null
         })
       }
     </div>

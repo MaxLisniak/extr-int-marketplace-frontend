@@ -1,8 +1,8 @@
 import "./Sidebar.scss";
+import { Link } from "react-router-dom";
 import HomeIcon from "./assets/home.png";
 import CategoryIcon from "./assets/category.png";
 import StarIcon from "./assets/star.png";
-import { Link } from "react-router-dom";
 
 const Sidebar = () => {
 
