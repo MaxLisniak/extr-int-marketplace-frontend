@@ -26,8 +26,8 @@ const CreateItem = (props: {
         filledFields[fieldName as keyof {}].required = objectCreation?.required;
         // if (fieldType === "select")
         //   filledFields[fieldName as keyof {}].value = undefined;
-        filledFields[fieldName as keyof {}].value =
-          filledFields[fieldName as keyof {}].values = values;
+        filledFields[fieldName as keyof {}].value = ""
+        filledFields[fieldName as keyof {}].values = values;
       }
     })
     setFields(filledFields);
