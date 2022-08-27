@@ -17,19 +17,22 @@ const Category = () => {
 
   return (
     <div className="category-blocks">
-      {activeCategory.subcategories.map(subcategory => {
-        return (
-          <Link
-            key={subcategory.id}
-            style={{ textDecoration: "none" }}
-            to={`${subcategory.name}`}
-          >
-            <div className="category-block" >
-              {subcategory.name}
-            </div>
-          </Link>
-        )
-      })}
+      {activeCategory.subcategories.length > 0 ?
+        activeCategory.subcategories.map(subcategory => {
+          return (
+            <Link
+              key={subcategory.id}
+              style={{ textDecoration: "none" }}
+              to={`${subcategory.name}`}
+            >
+              <div className="category-block" >
+                {subcategory.name}
+              </div>
+            </Link>
+          )
+        })
+        : <h1>Nothing Found</h1>
+      }
     </div>
   )
 }
