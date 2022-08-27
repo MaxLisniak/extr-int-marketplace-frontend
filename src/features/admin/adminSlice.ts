@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { deleteCategory, deleteProduct, deleteSubcategory, fetchItems, updateItem } from "./thunks";
+import { createItem, deleteCategory, deleteCharacteristic, deleteCharacteristicName, deleteProduct, deleteSubcategory, fetchItems, updateCategory, updateCharacteristic, updateCharacteristicName, updateProduct, updateSubcategory } from "./thunks";
 import { AdminState } from "./types";
 
 const initialState: AdminState = {
@@ -8,6 +8,7 @@ const initialState: AdminState = {
   subcategories: [],
   characteristics: [],
   characteristic_names: [],
+  errorMessages: []
 }
 
 export const adminSlice = createSlice({
@@ -21,12 +22,47 @@ export const adminSlice = createSlice({
           action.payload.items;
       })
     builder
-      .addCase(updateItem.fulfilled, (state, action) => {
-        const obj = action.payload.item;
-        const modelName = action.payload.modelName;
-        for (let i = 0; i < state[modelName as keyof AdminState].length; i++) {
-          if (state[modelName as keyof AdminState][i].id === obj.id) {
-            state[modelName as keyof AdminState][i] = obj;
+      .addCase(updateProduct.fulfilled, (state, action) => {
+        const obj = action.payload;
+        for (let i = 0; i < state.products.length; i++) {
+          if (state.products[i].id === obj.id) {
+            state.products[i] = obj;
+          }
+        }
+      })
+    builder
+      .addCase(updateCategory.fulfilled, (state, action) => {
+        const obj = action.payload;
+        for (let i = 0; i < state.categories.length; i++) {
+          if (state.categories[i].id === obj.id) {
+            state.categories[i] = obj;
+          }
+        }
+      })
+    builder
+      .addCase(updateSubcategory.fulfilled, (state, action) => {
+        const obj = action.payload;
+        for (let i = 0; i < state.subcategories.length; i++) {
+          if (state.subcategories[i].id === obj.id) {
+            state.subcategories[i] = obj;
+          }
+        }
+      })
+    builder
+      .addCase(updateCharacteristic.fulfilled, (state, action) => {
+        const obj = action.payload;
+        for (let i = 0; i < state.characteristics.length; i++) {
+          if (state.characteristics[i].id === obj.id) {
+            state.characteristics[i] = obj;
+          }
+        }
+      })
+    builder
+      .addCase(updateCharacteristicName.fulfilled, (state, action) => {
+        const obj = action.payload;
+        for (let i = 0; i < state.characteristic_names.length; i++) {
+          if (state.characteristic_names[i].id === obj.id) {
+            state.characteristic_names[i] = obj;
           }
         }
       })
@@ -56,6 +92,30 @@ export const adminSlice = createSlice({
             return item.id !== id;
           })
         state.subcategories = updatedSubcategories;
+      })
+    builder
+      .addCase(deleteCharacteristic.fulfilled, (state, action) => {
+        const id = action.payload;
+        const updatedCharacteristics = state.characteristics
+          .filter(item => {
+            return item.id !== id;
+          })
+        state.characteristics = updatedCharacteristics;
+      })
+    builder
+      .addCase(deleteCharacteristicName.fulfilled, (state, action) => {
+        const id = action.payload;
+        const updatedCharacteristicNames = state.characteristic_names
+          .filter(item => {
+            return item.id !== id;
+          })
+        state.characteristic_names = updatedCharacteristicNames;
+      })
+    builder
+      .addCase(createItem.fulfilled, (state, action) => {
+        const obj = action.payload.item;
+        const modelName = action.payload.modelName;
+        state[modelName as keyof AdminState].unshift(obj)
       })
   }
 })

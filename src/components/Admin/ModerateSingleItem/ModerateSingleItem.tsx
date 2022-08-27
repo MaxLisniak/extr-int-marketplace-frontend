@@ -1,9 +1,11 @@
 import "./ModerateSingleItem.scss";
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../../app/hooks";
-import { updateItem } from "../../../features/admin/thunks";
 import React from "react";
+import InputField from "../InputField/InputField";
 import EditButtons from "../EditButtons/EditButtons";
+import CreateItem from "../CreateItem/CreateItem";
+import Collapsible from "../../Collapsible/Collapsible";
 
 const ModerateSingleItem = (props: {
   items: any[],
@@ -12,6 +14,7 @@ const ModerateSingleItem = (props: {
   i: number,
   modelName: string,
   deleteItem: Function,
+  updateItem: Function,
   children?: React.ReactNode
 }) => {
 
@@ -33,7 +36,9 @@ const ModerateSingleItem = (props: {
     items: any[],
     fieldsDefinition: {},
     deleteItem: Function,
+    updateItem: Function,
     reference_key: number,
+    nestedModelsDefinition: NestedModel
   }
 
   useEffect(() => {
@@ -99,6 +104,7 @@ const ModerateSingleItem = (props: {
 
   const formInputs = Object.entries(fields).map((entry) => {
     const [fieldName, field] = entry as [string, Field];
+
     const inputFieldsProps = {
       style: {
         backgroundColor: field.editing ?
@@ -108,98 +114,33 @@ const ModerateSingleItem = (props: {
             "rgb(151, 183, 244)"
       },
       disabled: !field.editing,
-      // autoComplete: "off",
-      id: `${fieldName}-field-${item.id}`,
       value: field.value || "",
-      // onChange: (e: any) => {
-      //   setFields({
-      //     ...fields,
-      //     [fieldName]: { ...field, value: Number(e.target.value), }
-      //   })
-      // }
     }
+
     return (
-      <div className="input" key={`${fieldName}-for-${item.id}`}>
-        <label htmlFor={`${fieldName}-field-${item.id}`}>{fieldName}</label>
-        {
+      <React.Fragment key={`${fieldName}-for-${item.id}`}>
+        <InputField
+          field={field}
+          fieldName={fieldName}
+          fields={fields}
+          setFields={setFields}
+          id={item.id}
+          inputFieldsProps={inputFieldsProps}
 
-          // TEXTAREA
-
-          field.fieldType === "textarea" ?
-            <textarea
-              {...inputFieldsProps}
-              onChange={(e: any) => {
-                setFields({
-                  ...fields,
-                  [fieldName]: { ...field, value: e.target.value }
-                })
-              }}
-            />
-
-            // TEXTINPUT
-
-            : field.fieldType === "textInput" ?
-              <input
-                {...inputFieldsProps}
-                type="text"
-                autoComplete="off"
-                onChange={(e) => {
-                  setFields({
-                    ...fields,
-                    [fieldName]: { ...field, value: e.target.value, }
-                  })
-                }}
-              />
-
-              // SELECT
-
-              : field.fieldType === "select" ?
-                <select
-                  {...inputFieldsProps}
-                  onChange={(e) => {
-                    setFields({
-                      ...fields,
-                      [fieldName]: { ...field, value: Number(e.target.value), }
-                    })
-                  }}
-                >
-                  {field.values?.map((value: { id: number, name: string }) => {
-                    return <option
-                      key={value.id}
-                      value={value.id}
-                      defaultValue={field.value}
-                    >
-                      {`${value.id}: ${value.name}`}
-                    </option>
-                  })}
-                </select>
-
-                // LIST
-
-                : field.fieldType === "list" ?
-                  <ul className="list">
-                    {field.values?.map((value: { id: number, name: string }) => {
-                      return <li key={value.id}>{`${value.id}: ${value.name}`}</li>
-                    })}
-                    {field.values?.length === 0 ?
-                      <li><i>No values</i></li>
-                      : null}
-                  </ul>
-                  : null
-        }
+        />
         {
           field.editable ?
             <EditButtons
               fieldContext={{
-                field,
-                fieldName,
-                fields,
-                setFields
+                field: field,
+                fieldName: fieldName,
+                fields: fields,
+                setFields: setFields
               }}
             />
             : null
         }
-      </div>
+      </React.Fragment>
     )
   })
 
@@ -215,6 +156,14 @@ const ModerateSingleItem = (props: {
             })
           return {
             modelName: modelName,
+            createItem: (
+              <CreateItem
+                fieldsDefinition={modelProperties.fieldsDefinition}
+                modelName={modelName}
+                reference_key={modelProperties.reference_key}
+                parent_id={parentId}
+              />
+            ),
             reactElements:
               items.map((item, i) => {
                 return (
@@ -224,7 +173,9 @@ const ModerateSingleItem = (props: {
                     items={items}
                     i={i}
                     fieldsDefinition={modelProperties.fieldsDefinition}
+                    nestedModelsDefinition={modelProperties.nestedModelsDefinition}
                     deleteItem={modelProperties.deleteItem}
+                    updateItem={modelProperties.updateItem}
                     key={`${modelName}-${item.id}-form`}
                   />
 
@@ -243,10 +194,9 @@ const ModerateSingleItem = (props: {
       <button
         disabled={isEditing || !hasChanges}
         onClick={() => {
-          dispatch(updateItem(
+          dispatch(props.updateItem(
             {
               item: itemToUpdate,
-              modelName: props.modelName,
               id: item.id
             }
           ));
@@ -255,6 +205,8 @@ const ModerateSingleItem = (props: {
       >Update</button>
       <button
         className="delete"
+        disabled={!props.deleteItem}
+        style={{ display: props.deleteItem ? "unset" : "none" }}
         onClick={() => dispatch(
           props.deleteItem(item.id)
         )
@@ -263,15 +215,20 @@ const ModerateSingleItem = (props: {
         Delete
       </button>
       {nestedModels?.map((model: any) => {
-        const { modelName, reactElements } = model;
-        if (reactElements.length > 0)
-          return (
-            <div className="nested" key={modelName}>
-              <b>{modelName}</b>
-              {reactElements}
-            </div>
-          )
-        else return null
+        const { modelName, reactElements, createItem } = model;
+        // if (reactElements.length > 0)
+        return (
+          <div className="nested" key={modelName}>
+            <Collapsible
+              label={modelName}
+              openByDefault={false}
+            >
+              {createItem}
+              {reactElements.length > 0 ? reactElements : <i>No items</i>}
+
+            </Collapsible>
+          </div>
+        )
       })}
     </div>
   )

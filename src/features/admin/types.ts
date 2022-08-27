@@ -35,4 +35,5 @@ export interface AdminState {
   subcategories: Subcategory[],
   characteristics: Characteristic[],
   characteristic_names: CharacteristicName[],
+  errorMessages: string[],
 }

@@ -1,5 +1,5 @@
 import './FilterModal.scss'
-import Collapsible from "./Collapsible/Collapsible"
+import Collapsible from '../../Collapsible/Collapsible'
 import PriceFilter from './PriceFilter/PriceFilter'
 import SubcategoriesFilter from './SubcategoriesFilter/SubcategoriesFilter'
 import { useEffect, useState } from 'react'
@@ -50,12 +50,12 @@ const FilterModal = () => {
     <div className="filter-modal" style={filterVisible ? { display: "block" } : { display: "none" }}>
       {selectedCategoryName ?
         <>
-          <Collapsible label="Categories">
+          <Collapsible openByDefault={false} label="Categories">
             <SubcategoriesFilter />
           </Collapsible>
         </> : null
       }
-      <Collapsible label="Price">
+      <Collapsible openByDefault={false} label="Price">
         <PriceFilter />
       </Collapsible>
       {
@@ -72,7 +72,7 @@ const FilterModal = () => {
         ) => {
           return (
             <React.Fragment key={characteristicName.id}>
-              <Collapsible label={characteristicName.name} >
+              <Collapsible openByDefault={true} label={characteristicName.name} >
                 <CharacteristicFilter
                   characteristics={characteristicName.characteristics}
                 />

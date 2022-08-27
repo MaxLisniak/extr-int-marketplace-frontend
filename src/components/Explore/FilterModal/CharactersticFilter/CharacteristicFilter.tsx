@@ -15,7 +15,7 @@ const CharacteristicFilter = (
 ) => {
 
   const dispatch = useAppDispatch();
-  const charName = props.characteristics[0].characteristic_name_id;
+  const charName = props.characteristics[0]?.characteristic_name_id;
   const allCheckedCharacteristics = useAppSelector(state => state.filter.selectedCharacteristics);
   const checkedCharacteristics = allCheckedCharacteristics[charName as keyof {}];
 

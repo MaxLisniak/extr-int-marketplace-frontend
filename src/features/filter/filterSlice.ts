@@ -40,7 +40,7 @@ export const fetchCategories = createAsyncThunk<
   Category[]
 >
   ('filter/fetchCategories', async () => {
-    const response = await axios.get('http://localhost:3000/categories');
+    const response = await axios.get('http://localhost:3000/categories/extended/');
     return response.data;
   }
   )

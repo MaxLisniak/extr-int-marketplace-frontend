@@ -1,12 +1,14 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { deleteCharacteristic, deleteProduct, fetchItems } from "../../../features/admin/thunks";
+import { deleteCharacteristic, deleteProduct, fetchItems, updateCharacteristic, updateProduct } from "../../../features/admin/thunks";
+import CreateItem from "../CreateItem/CreateItem";
 import ModerateSingleItem from "../ModerateSingleItem/ModerateSingleItem";
 
 
 const ModerateProducts = () => {
 
   const dispatch = useAppDispatch()
+
 
   useEffect(() => {
     dispatch(fetchItems("products"));
@@ -16,10 +18,14 @@ const ModerateProducts = () => {
   }, [])
 
   const products = useAppSelector(state => state.admin.products);
+
+  useEffect(() => {
+    dispatch(fetchItems("characteristics"))
+  }, [products])
+
   const subcategories = useAppSelector(state => state.admin.subcategories);
   const characteristics = useAppSelector(state => state.admin.characteristics);
   const characteristic_names = useAppSelector(state => state.admin.characteristic_names);
-  console.log(characteristic_names)
   const items = products;
   const modelName = "products";
 
@@ -31,20 +37,36 @@ const ModerateProducts = () => {
     name: {
       fieldName: "name",
       fieldType: "textInput",
-      editable: true
+      editable: true,
+      objectCreation: {
+        include: true,
+        required: true,
+      }
     },
     description: {
       fieldType: "textInput",
-      editable: true
+      editable: true,
+      objectCreation: {
+        include: true,
+        required: false,
+      }
     },
     image_url: {
       fieldType: "textarea",
-      editable: true
+      editable: true,
+      objectCreation: {
+        include: true,
+        required: false,
+      }
     },
     subcategory_id: {
       fieldType: "select",
       values: subcategories,
       editable: true,
+      objectCreation: {
+        include: true,
+        required: false,
+      }
     }
   };
 
@@ -59,14 +81,23 @@ const ModerateProducts = () => {
           fieldType: "select",
           values: characteristic_names,
           editable: false,
+          objectCreation: {
+            include: true,
+            required: true,
+          }
         },
         value: {
           fieldType: "textInput",
-          editable: true
+          editable: true,
+          objectCreation: {
+            include: true,
+            required: true,
+          }
         },
       },
       items: characteristics,
       deleteItem: deleteCharacteristic,
+      updateItem: updateCharacteristic,
       reference_key: "product_id",
     }
   }
@@ -74,6 +105,10 @@ const ModerateProducts = () => {
   return (
     <div className="moderate-items">
       <h2>Moderate {modelName}</h2>
+      <CreateItem
+        fieldsDefinition={fieldsDefinition}
+        modelName={modelName}
+      />
       {
         items.map((item, i) => {
           return (
@@ -84,6 +119,7 @@ const ModerateProducts = () => {
               nestedModelsDefinition={nestedModelsDefinition}
               i={i}
               deleteItem={deleteProduct}
+              updateItem={updateProduct}
               key={`${modelName}-${item.id}-form`}
             >
             </ModerateSingleItem>
