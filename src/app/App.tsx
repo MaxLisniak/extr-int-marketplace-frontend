@@ -12,6 +12,7 @@ import ModerateSubcategories from '../components/Admin/ModerateSubcategories /Mo
 import Category from '../components/Explore/Category/Category';
 import Home from '../components/Explore/Home/Home';
 import Items from '../components/Explore/Items/Items';
+import NotFound from '../components/NotFound/NotFound';
 
 function App() {
 
@@ -28,21 +29,23 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Layout />}>
+          <Route path="*" element={<NotFound />} />
           {/* <Route index element={<Home />} /> */}
           <Route path="/" element={<Navigate to={'explore/categories'} />} />
           <Route path="explore/" element={<Explore />} >
+            <Route path="" element={<Navigate to={'categories'} />} />
             <Route path="categories" element={<Home />} />
             <Route path=":categoryName" element={<Category />} />
             <Route path=":categoryName/:subcategoryName" element={<Items />} />
-            {/* </Route> */}
+          </Route>
+          <Route path="admin" element={<Admin />}>
+            <Route path="/admin" element={<Navigate to={'/admin/categories'} />} />
+            <Route path='products' element={<ModerateProducts />} />
+            <Route path="categories" element={<ModerateCategories />} />
+            <Route path="subcategories" element={<ModerateSubcategories />} />
           </Route>
         </Route>
-        <Route path="admin" element={<Admin />}>
-          <Route path="/admin" element={<Navigate to={'/admin/products'} />} />
-          <Route path='products' element={<ModerateProducts />} />
-          <Route path="categories" element={<ModerateCategories />} />
-          <Route path="subcategories" element={<ModerateSubcategories />} />
-        </Route>
+
       </Routes>
     </>
   );
