@@ -29,11 +29,19 @@ export interface CharacteristicName {
   for_subcategory: number,
 }
 
+export interface Price {
+  id: number,
+  price: number,
+  date: string,
+  product_id: number
+}
+
 export interface AdminState {
   products: Product[],
   categories: Category[],
   subcategories: Subcategory[],
   characteristics: Characteristic[],
   characteristic_names: CharacteristicName[],
+  prices: Price[],
   errorMessages: string[],
 }

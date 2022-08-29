@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createItem, deleteCategory, deleteCharacteristic, deleteCharacteristicName, deleteProduct, deleteSubcategory, fetchItems, updateCategory, updateCharacteristic, updateCharacteristicName, updateProduct, updateSubcategory } from "./thunks";
+import { createItem, deleteCategory, deleteCharacteristic, deleteCharacteristicName, deletePrice, deleteProduct, deleteSubcategory, fetchItems, updateCategory, updateCharacteristic, updateCharacteristicName, updatePrice, updateProduct, updateSubcategory } from "./thunks";
 import { AdminState } from "./types";
 
 const initialState: AdminState = {
@@ -8,6 +8,7 @@ const initialState: AdminState = {
   subcategories: [],
   characteristics: [],
   characteristic_names: [],
+  prices: [],
   errorMessages: []
 }
 
@@ -67,6 +68,15 @@ export const adminSlice = createSlice({
         }
       })
     builder
+      .addCase(updatePrice.fulfilled, (state, action) => {
+        const obj = action.payload;
+        for (let i = 0; i < state.prices.length; i++) {
+          if (state.prices[i].id === obj.id) {
+            state.prices[i] = obj;
+          }
+        }
+      })
+    builder
       .addCase(deleteProduct.fulfilled, (state, action) => {
         const id = action.payload;
         const updatedProducts = state.products
@@ -110,6 +120,15 @@ export const adminSlice = createSlice({
             return item.id !== id;
           })
         state.characteristic_names = updatedCharacteristicNames;
+      })
+    builder
+      .addCase(deletePrice.fulfilled, (state, action) => {
+        const id = action.payload;
+        const updatedPrices = state.prices
+          .filter(item => {
+            return item.id !== id;
+          })
+        state.prices = updatedPrices;
       })
     builder
       .addCase(createItem.fulfilled, (state, action) => {

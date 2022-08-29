@@ -82,7 +82,7 @@ const CreateItem = (props: {
           key={i}
           inputFieldsProps={{
             required: required ? "required" : null,
-            value,
+            value: value,
           }}
         />
       })}

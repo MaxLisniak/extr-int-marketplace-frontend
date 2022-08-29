@@ -33,6 +33,12 @@ export const updateCharacteristicName = createAsyncThunk
     const response = await configuredAxios.patch(`characteristic_names/${payload.id}`, payload.item);
     return response.data;
   })
+export const updatePrice = createAsyncThunk
+  ('admin/updatePrice', async (payload: { item: {}, id: number }) => {
+    console.log(payload)
+    const response = await configuredAxios.patch(`prices/${payload.id}`, payload.item);
+    return response.data;
+  })
 
 export const deleteProduct = createAsyncThunk
   ('admin/deleteProduct', async (id: number) => {
@@ -65,6 +71,13 @@ export const deleteCharacteristic = createAsyncThunk
 export const deleteCharacteristicName = createAsyncThunk
   ('admin/deleteCharacteristicName', async (id: number) => {
     const response = await configuredAxios.delete(`characteristic_names/${id}`);
+    if (response.data === "OK") {
+      return id
+    }
+  })
+export const deletePrice = createAsyncThunk
+  ('admin/deletePrice', async (id: number) => {
+    const response = await configuredAxios.delete(`prices/${id}`);
     if (response.data === "OK") {
       return id
     }

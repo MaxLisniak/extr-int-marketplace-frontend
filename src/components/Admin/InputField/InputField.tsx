@@ -31,16 +31,29 @@ const InputField = (props: {
 
           // TEXTINPUT
 
-          : props.field.fieldType === "textInput" ?
+          : ["textInput", "numericalInput", "datePicker"]
+            .includes(props.field.fieldType) ?
             <input
               {...props.inputFieldsProps}
               id={`${props.fieldName}-field-${props.id}`}
-              type="text"
+              type={
+                props.field.fieldType === "textInput" ?
+                  "text" :
+                  props.field.fieldType === "numericalInput" ?
+                    "number" :
+                    props.field.fieldType === "datePicker" ?
+                      "date" : ""
+              }
               autoComplete="off"
               onChange={(e) => {
                 props.setFields({
                   ...props.fields,
-                  [props.fieldName]: { ...props.field, value: e.target.value, }
+                  [props.fieldName]: {
+                    ...props.field, value:
+                      props.field.fieldType === "numericalInput" ?
+                        Number(e.target.value) :
+                        e.target.value
+                  }
                 })
               }}
             />
@@ -70,6 +83,7 @@ const InputField = (props: {
                   </option>
                 })}
               </select>
+
               : null
       }
 

@@ -1,9 +1,10 @@
 import "../ModerateItems/ModerateItems.scss";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { deleteCategory, deleteCharacteristic, deleteCharacteristicName, deleteProduct, deleteSubcategory, fetchItems, updateCategory, updateCharacteristic, updateCharacteristicName, updateProduct, updateSubcategory } from "../../../features/admin/thunks";
+import { deleteCategory, deleteCharacteristic, deleteCharacteristicName, deletePrice, deleteProduct, deleteSubcategory, fetchItems, updateCategory, updateCharacteristic, updateCharacteristicName, updatePrice, updateProduct, updateSubcategory } from "../../../features/admin/thunks";
 import ModerateSingleItem from "../ModerateSingleItem/ModerateSingleItem";
 import CreateItem from "../CreateItem/CreateItem";
+// import { DateTime } from "luxon";
 
 const ModerateCategories = () => {
 
@@ -15,6 +16,7 @@ const ModerateCategories = () => {
     dispatch(fetchItems("characteristic_names"))
     dispatch(fetchItems("products"))
     dispatch(fetchItems("characteristics"))
+    dispatch(fetchItems("prices"));
   }, [])
 
 
@@ -24,6 +26,28 @@ const ModerateCategories = () => {
   const characteristicNames = useAppSelector(state => state.admin.characteristic_names)
   const products = useAppSelector(state => state.admin.products)
   const characteristics = useAppSelector(state => state.admin.characteristics)
+
+  function padTo2Digits(num: number) {
+    return num.toString().padStart(2, '0');
+  }
+
+  function formatDate(date = new Date()) {
+    return [
+      date.getFullYear(),
+      padTo2Digits(date.getMonth() + 1),
+      padTo2Digits(date.getDate()),
+    ].join('-');
+  }
+
+  const prices = useAppSelector(state => state.admin.prices)
+    .map(price => {
+      return {
+        ...price, date:
+          formatDate(new Date(price.date))
+      }
+    })
+
+  // const date = DateTime.fromJSDate(price.date).toFormat('yyyy-MM-dd')
   const items = categories;
 
   useEffect(() => {
@@ -157,6 +181,34 @@ const ModerateCategories = () => {
               },
               items: characteristics,
               updateItem: updateCharacteristic,
+              reference_key: "product_id",
+            },
+            prices: {
+              fieldsDefinition: {
+                id: {
+                  fieldType: "textInput",
+                  editable: false,
+                },
+                price: {
+                  fieldType: "numericalInput",
+                  editable: true,
+                  objectCreation: {
+                    include: true,
+                    required: true,
+                  }
+                },
+                date: {
+                  fieldType: "datePicker",
+                  editable: true,
+                  objectCreation: {
+                    include: true,
+                    required: true,
+                  }
+                },
+              },
+              items: prices,
+              updateItem: updatePrice,
+              deleteItem: deletePrice,
               reference_key: "product_id",
             }
           }
