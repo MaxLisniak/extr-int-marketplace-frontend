@@ -39,6 +39,12 @@ export const updatePrice = createAsyncThunk
     const response = await configuredAxios.patch(`prices/${payload.id}`, payload.item);
     return response.data;
   })
+export const updateKeyword = createAsyncThunk
+  ('admin/updateKeyword', async (payload: { item: {}, id: number }) => {
+    console.log(payload)
+    const response = await configuredAxios.patch(`keywords/${payload.id}`, payload.item);
+    return response.data;
+  })
 
 export const deleteProduct = createAsyncThunk
   ('admin/deleteProduct', async (id: number) => {
@@ -78,6 +84,13 @@ export const deleteCharacteristicName = createAsyncThunk
 export const deletePrice = createAsyncThunk
   ('admin/deletePrice', async (id: number) => {
     const response = await configuredAxios.delete(`prices/${id}`);
+    if (response.data === "OK") {
+      return id
+    }
+  })
+export const deleteKeyword = createAsyncThunk
+  ('admin/deleteKeyword', async (id: number) => {
+    const response = await configuredAxios.delete(`keywords/${id}`);
     if (response.data === "OK") {
       return id
     }

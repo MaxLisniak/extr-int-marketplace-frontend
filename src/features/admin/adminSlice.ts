@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createItem, deleteCategory, deleteCharacteristic, deleteCharacteristicName, deletePrice, deleteProduct, deleteSubcategory, fetchItems, updateCategory, updateCharacteristic, updateCharacteristicName, updatePrice, updateProduct, updateSubcategory } from "./thunks";
+import { createItem, deleteCategory, deleteCharacteristic, deleteCharacteristicName, deleteKeyword, deletePrice, deleteProduct, deleteSubcategory, fetchItems, updateCategory, updateCharacteristic, updateCharacteristicName, updateKeyword, updatePrice, updateProduct, updateSubcategory } from "./thunks";
 import { AdminState } from "./types";
 
 const initialState: AdminState = {
@@ -9,6 +9,7 @@ const initialState: AdminState = {
   characteristics: [],
   characteristic_names: [],
   prices: [],
+  keywords: [],
   errorMessages: []
 }
 
@@ -77,6 +78,15 @@ export const adminSlice = createSlice({
         }
       })
     builder
+      .addCase(updateKeyword.fulfilled, (state, action) => {
+        const obj = action.payload;
+        for (let i = 0; i < state.keywords.length; i++) {
+          if (state.keywords[i].id === obj.id) {
+            state.keywords[i] = obj;
+          }
+        }
+      })
+    builder
       .addCase(deleteProduct.fulfilled, (state, action) => {
         const id = action.payload;
         const updatedProducts = state.products
@@ -129,6 +139,15 @@ export const adminSlice = createSlice({
             return item.id !== id;
           })
         state.prices = updatedPrices;
+      })
+    builder
+      .addCase(deleteKeyword.fulfilled, (state, action) => {
+        const id = action.payload;
+        const updatedKeywords = state.keywords
+          .filter(item => {
+            return item.id !== id;
+          })
+        state.keywords = updatedKeywords;
       })
     builder
       .addCase(createItem.fulfilled, (state, action) => {

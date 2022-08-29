@@ -1,7 +1,7 @@
 import "../ModerateItems/ModerateItems.scss";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { deleteCategory, deleteCharacteristic, deleteCharacteristicName, deletePrice, deleteProduct, deleteSubcategory, fetchItems, updateCategory, updateCharacteristic, updateCharacteristicName, updatePrice, updateProduct, updateSubcategory } from "../../../features/admin/thunks";
+import { deleteCategory, deleteCharacteristic, deleteCharacteristicName, deleteKeyword, deletePrice, deleteProduct, deleteSubcategory, fetchItems, updateCategory, updateCharacteristic, updateCharacteristicName, updateKeyword, updatePrice, updateProduct, updateSubcategory } from "../../../features/admin/thunks";
 import ModerateSingleItem from "../ModerateSingleItem/ModerateSingleItem";
 import CreateItem from "../CreateItem/CreateItem";
 // import { DateTime } from "luxon";
@@ -16,7 +16,8 @@ const ModerateCategories = () => {
     dispatch(fetchItems("characteristic_names"))
     dispatch(fetchItems("products"))
     dispatch(fetchItems("characteristics"))
-    dispatch(fetchItems("prices"));
+    dispatch(fetchItems("prices"))
+    dispatch(fetchItems("keywords"))
   }, [])
 
 
@@ -26,6 +27,7 @@ const ModerateCategories = () => {
   const characteristicNames = useAppSelector(state => state.admin.characteristic_names)
   const products = useAppSelector(state => state.admin.products)
   const characteristics = useAppSelector(state => state.admin.characteristics)
+  const keywords = useAppSelector(state => state.admin.keywords)
 
   function padTo2Digits(num: number) {
     return num.toString().padStart(2, '0');
@@ -209,6 +211,26 @@ const ModerateCategories = () => {
               items: prices,
               updateItem: updatePrice,
               deleteItem: deletePrice,
+              reference_key: "product_id",
+            },
+            keywords: {
+              fieldsDefinition: {
+                id: {
+                  fieldType: "textInput",
+                  editable: false,
+                },
+                keyword: {
+                  fieldType: "textInput",
+                  editable: true,
+                  objectCreation: {
+                    include: true,
+                    required: true,
+                  }
+                }
+              },
+              items: keywords,
+              updateItem: updateKeyword,
+              deleteItem: deleteKeyword,
               reference_key: "product_id",
             }
           }

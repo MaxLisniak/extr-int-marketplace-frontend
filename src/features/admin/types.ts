@@ -36,6 +36,12 @@ export interface Price {
   product_id: number
 }
 
+export interface Keyword {
+  id: number,
+  product_id: number,
+  keyword: string,
+}
+
 export interface AdminState {
   products: Product[],
   categories: Category[],
@@ -43,5 +49,6 @@ export interface AdminState {
   characteristics: Characteristic[],
   characteristic_names: CharacteristicName[],
   prices: Price[],
+  keywords: Keyword[],
   errorMessages: string[],
 }
