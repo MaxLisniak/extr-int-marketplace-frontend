@@ -78,6 +78,11 @@ const ModerateCategories = () => {
           fieldType: "textInput",
           editable: false,
         },
+        category_id: {
+          fieldType: "select",
+          values: categories,
+          editable: true,
+        },
         name: {
           fieldType: "textInput",
           editable: true,
@@ -85,11 +90,6 @@ const ModerateCategories = () => {
             include: true,
             required: true
           }
-        },
-        category_id: {
-          fieldType: "select",
-          values: categories,
-          editable: true,
         },
       },
       items: subcategories,

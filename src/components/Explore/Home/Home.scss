@@ -7,17 +7,21 @@
   flex-wrap: wrap;
   gap: 50px;
   align-items: flex-start;
-  justify-content: center;
+  justify-content: space-between;
   padding: 50px;
+
 
   a {
     color: black;
+    flex-grow: 1;
+
   }
 
   .category-block {
     font-size: 2em;
     border-radius: $border-radius;
     background-color: rgb(245, 180, 107);
-    padding: 50px;
+    padding: 80px 30px;
+    text-align: center;
   }
 }

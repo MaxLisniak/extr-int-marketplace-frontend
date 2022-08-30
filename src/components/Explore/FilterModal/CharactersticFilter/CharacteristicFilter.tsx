@@ -1,7 +1,6 @@
 import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
-import { updateCharacteristicName } from "../../../../features/admin/thunks";
 import { toggleCharacteristic } from "../../../../features/filter/filterSlice";
-import { CharacteristicName } from "../../../../features/filter/types";
+import { CharacteristicName } from "../../../../features/types";
 import "./CharacteristicFilter.scss";
 // import { selectCharacteristicsForName } from "../../../../features/filter/filterSlice";
 // import selectCharacteristicsForName 

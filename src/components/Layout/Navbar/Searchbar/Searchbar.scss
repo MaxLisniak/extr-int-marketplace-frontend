@@ -1,0 +1,28 @@
+@import "../../../standard";
+
+.search {
+  display: flex;
+  align-items: center;
+
+  .button {
+    height: 20px;
+    background-color: #EAEAEA;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px 0 0 10px;
+    padding: 16px 23px 16px 16px;
+  }
+
+  input {
+    height: 30px;
+    width: 200px;
+    border: 1px solid $primary-color;
+    padding: 10px 40px;
+    font-size: 20px;
+  }
+
+  img {
+    height: 30px
+  }
+}

@@ -1,11 +1,18 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { fetchCategories, fetchCharacteristicsForSubcategory } from './thunks';
-import { Category, CharacteristicName, FilterState, Subcategory } from './types';
+import { fetchCategories, fetchCharacteristicsForSubcategory, fetchProducts, searchKeywordsAndProducts } from './thunks';
+import { Category, Keyword, CharacteristicName, FilterState, Product, Subcategory } from '../types';
 
 const initialState: FilterState = {
   minPrice: 1,
   maxPrice: 1000,
   categories: [],
+  products: [],
+  product: {} as Product,
+  searchResults: {
+    keywords: [],
+    products: [],
+  },
+  searchQuery: "",
   priceOrder: 'desc',
   activeCategory: undefined,
   activeSubcategory: undefined,
@@ -77,6 +84,9 @@ export const filterSlice = createSlice({
       state.displayAs === 'rows' ?
         state.displayAs = 'tiles' :
         state.displayAs = 'rows'
+    },
+    setSearchQuery: (state, action) => {
+      state.searchQuery = action.payload;
     }
 
 
@@ -90,6 +100,14 @@ export const filterSlice = createSlice({
       .addCase(fetchCharacteristicsForSubcategory.fulfilled, (state, action) => {
         state.characteristicNames = action.payload;
       })
+    builder
+      .addCase(searchKeywordsAndProducts.fulfilled, (state, action) => {
+        state.searchResults = action.payload;
+      })
+    builder
+      .addCase(fetchProducts.fulfilled, (state, action) => {
+        state.products = action.payload;
+      })
   }
 })
 
@@ -102,6 +120,7 @@ export const {
   toggleCharacteristic,
   toggleFilterVisibility,
   toggleView,
+  setSearchQuery,
 
 } = filterSlice.actions;
 

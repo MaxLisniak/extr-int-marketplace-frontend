@@ -1,6 +1,6 @@
 import './FilterModal.scss'
 import { useAppDispatch, useAppSelector } from '../../../app/hooks'
-import { CharacteristicName } from '../../../features/filter/types'
+import { CharacteristicName } from '../../../features/types'
 import React from 'react'
 import Collapsible from '../../Collapsible/Collapsible'
 import PriceFilter from './PriceFilter/PriceFilter'

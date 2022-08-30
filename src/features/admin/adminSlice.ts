@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createItem, deleteCategory, deleteCharacteristic, deleteCharacteristicName, deleteKeyword, deletePrice, deleteProduct, deleteSubcategory, fetchItems, updateCategory, updateCharacteristic, updateCharacteristicName, updateKeyword, updatePrice, updateProduct, updateSubcategory } from "./thunks";
-import { AdminState } from "./types";
+import { AdminState } from "../types";
 
 const initialState: AdminState = {
   products: [],
