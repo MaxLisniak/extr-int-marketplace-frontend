@@ -39,6 +39,7 @@ const SearchResults = () => {
                 return <Link
                   to={`explore/${category}/${subcategory}/${product.id}`}
                   onClick={() => dispatch(setSearchQuery(""))}
+                  style={{ textDecoration: "none", color: "black" }}
                 >
                   <li key={product.id}>{product.name}</li>
                 </Link>
