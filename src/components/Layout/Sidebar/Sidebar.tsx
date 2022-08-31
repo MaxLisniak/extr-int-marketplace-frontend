@@ -5,9 +5,12 @@ import CategoryIcon from "./assets/category.png";
 import StarIcon from "./assets/star.png";
 import AdminIcon from "./assets/admin.png";
 import { useAppSelector } from "../../../app/hooks";
+import SubcategoriesBlock from "./SubcategoriesBlock/SubcategoriesBlock";
+import React, { useState } from "react";
 
 const Sidebar = () => {
 
+  const [activeCategory, setActiveCategory] = useState<number | undefined>();
   const categories = useAppSelector(state => state.filter.categories);
 
   return (
@@ -29,16 +32,31 @@ const Sidebar = () => {
           <img src={CategoryIcon} alt="Categories" />
           <p className="link-label">Categories</p>
         </Link>
-        <ul className="subcategories-list">
+        <ul className="categories-list">
           {categories.map(category => {
-            return <Link
-              to={`explore/${category.name}`}
-              style={{ textDecoration: "none" }}
-              key={category.id}
-            >
-              <li key={category.id}>{category.name}</li>
-            </Link>
-
+            return (
+              // <Link
+              //   to={`explore/${category.name}`}
+              //   style={{ textDecoration: "none" }}
+              //   key={category.id}
+              // >
+              <div
+                className="block"
+                onMouseEnter={() => setActiveCategory(category.id)}
+                onMouseLeave={() => setActiveCategory(undefined)}
+                key={category.id}
+              >
+                <li className={
+                  activeCategory === category.id ? "selected" : undefined
+                }>{category.name}</li>
+                <div
+                  style={{ display: activeCategory === category.id ? 'block' : 'none' }}>
+                  <SubcategoriesBlock
+                    category={category}
+                  />
+                </div>
+              </div>
+            )
           })}
         </ul>
       </div>

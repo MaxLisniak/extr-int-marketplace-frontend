@@ -1,0 +1,20 @@
+@import "../../../standard";
+
+.subcategories-block {
+  position: absolute;
+  width: max-content;
+
+  ul {
+    list-style: none;
+    border: 2px $primary-color solid;
+    border-radius: $border-radius;
+    padding: 10px;
+
+    li {
+      font-size: 18px !important;
+    }
+  }
+
+  background-color: white;
+  border-radius: $border-radius;
+}
