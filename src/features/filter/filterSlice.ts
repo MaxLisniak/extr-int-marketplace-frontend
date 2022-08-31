@@ -1,13 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { fetchCategories, fetchCharacteristicsForSubcategory, fetchProducts, searchKeywordsAndProducts } from './thunks';
-import { Category, Keyword, CharacteristicName, FilterState, Product, Subcategory } from '../types';
+import { Category, FilterState, Subcategory } from '../types';
 
 const initialState: FilterState = {
   minPrice: 1,
   maxPrice: 1000,
   categories: [],
   products: [],
-  product: {} as Product,
   searchResults: {
     keywords: [],
     products: [],

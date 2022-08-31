@@ -1,6 +1,7 @@
 import './Items.scss';
 
-import { Item, ProductBrief } from "./Item/Item";
+import { ItemBrief } from "./ItemBrief/ItemBrief";
+import { Product } from '../../../features/types';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { useEffect, useState } from 'react';
 import configuredAxios from '../../../axios/axios';
@@ -8,6 +9,7 @@ import DisplayOptionsBar from '../DisplayOptionsBar/DisplayOptionsBar';
 import FilterModal from '../FilterModal/FilterModal';
 import NotFound from '../../NotFound/NotFound';
 import { fetchCharacteristicsForSubcategory } from '../../../features/filter/thunks';
+
 
 const Items = () => {
 
@@ -20,7 +22,7 @@ const Items = () => {
   const minPrice = useAppSelector(state => state.filter.minPrice);
   const maxPrice = useAppSelector(state => state.filter.maxPrice);
 
-  const [products, setProducts] = useState<ProductBrief[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const characteristicNames = useAppSelector(state => state.filter.characteristicNames)
 
   useEffect(() => {
@@ -51,8 +53,8 @@ const Items = () => {
     products
       .sort(
         priceOrder === "desc" ?
-          (a: ProductBrief, b: ProductBrief) => a.latest_price - b.latest_price :
-          (a: ProductBrief, b: ProductBrief) => b.latest_price - a.latest_price
+          (a: Product, b: Product) => a.latest_price - b.latest_price :
+          (a: Product, b: Product) => b.latest_price - a.latest_price
       )
       .filter(
         product => {
@@ -85,7 +87,10 @@ const Items = () => {
         }).includes(false)
       })
       .map(product => {
-        return <Item product={product} key={product.id} />
+
+        return (
+          <ItemBrief product={product} key={product.id} />
+        )
       })
   )
 

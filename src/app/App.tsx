@@ -13,6 +13,7 @@ import Category from '../components/Explore/Category/Category';
 import Home from '../components/Explore/Home/Home';
 import Items from '../components/Explore/Items/Items';
 import NotFound from '../components/NotFound/NotFound';
+import ViewProduct from '../components/ViewProduct/ViewProduct';
 
 function App() {
 
@@ -36,7 +37,8 @@ function App() {
             <Route path="" element={<Navigate to={'categories'} />} />
             <Route path="categories" element={<Home />} />
             <Route path=":categoryName" element={<Category />} />
-            <Route path=":categoryName/:subcategoryName" element={<Items />} />
+            <Route path=":categoryName/:subcategoryName/" element={<Items />} />
+            <Route path=":categoryName/:subcategoryName/:id" element={<ViewProduct />} />
           </Route>
           <Route path="admin" element={<Admin />}>
             <Route path="/admin" element={<Navigate to={'/admin/categories'} />} />

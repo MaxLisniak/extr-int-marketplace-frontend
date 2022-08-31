@@ -1,0 +1,27 @@
+@import "../../standard";
+
+.comment {
+  display: flex;
+  border: 1px solid grey;
+  border-radius: $border-radius;
+  padding: 10px;
+
+  .info-box {
+    width: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    p {
+      text-align: center;
+    }
+
+    img {
+      width: 70px;
+    }
+  }
+
+  .comment-box {
+    padding: 10px;
+  }
+}
