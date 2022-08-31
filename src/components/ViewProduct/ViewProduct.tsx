@@ -21,8 +21,6 @@ const ViewProduct = () => {
 
   const [tab, setTab] = useState('Description');
 
-  console.log(product);
-
   return (
     <div className="view-product">
 
