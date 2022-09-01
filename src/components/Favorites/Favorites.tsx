@@ -15,15 +15,7 @@ const Favorites = () => {
   const displayAs = useAppSelector(state => state.filter.displayAs);
 
   useEffect(() => {
-    // axiosAuth.get('favorites/for-user', {
-    //   params: {
-    //     user_id: userId
-    //   }
-    // }).then(productsFetched => {
-    //   setProducts(productsFetched.data)
-    // })
     dispatch(fetchFavorites({ user_id: Number(userId), axios: axiosAuth }));
-
   }, [userId])
 
   if (products.length === 0) return (

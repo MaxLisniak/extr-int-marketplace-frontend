@@ -2,8 +2,6 @@ import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
 import { toggleCharacteristic } from "../../../../features/filter/filterSlice";
 import { CharacteristicName } from "../../../../features/types";
 import "./CharacteristicFilter.scss";
-// import { selectCharacteristicsForName } from "../../../../features/filter/filterSlice";
-// import selectCharacteristicsForName 
 
 const CharacteristicFilter = (
   props: { characteristicNameNameValue: string }
@@ -16,10 +14,6 @@ const CharacteristicFilter = (
         CharacteristicName.name === props.characteristicNameNameValue
       )
   )
-  // const charName = props.characteristics[0]?.characteristic_name_id;
-  // const allCheckedCharacteristics = useAppSelector(state => state.filter.selectedCharacteristics);
-  // const checkedCharacteristics = allCheckedCharacteristics[charName as keyof {}];
-
   return (
     <form className="characteristic-filter">
       <div className="buttons">
@@ -45,10 +39,6 @@ const CharacteristicFilter = (
                       }
                     ))
                   }}
-                // checked={Boolean(checkedCharacteristics?.find((c: string) => c === characteristicValue.value))}
-                // onChange={(e: any) => {
-                //   dispatch(selectCharacteristicsForName({ characteristic_name_id: charName, value: characteristicValue.value }))
-                // }}
                 />
                 <label htmlFor={"checkbox-" + characteristicValue.id}>{characteristicValue.value}</label>
               </div>

@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { access } from "fs";
 import { UserState } from "../types";
 import { fetchFavorites, refreshAccessToken } from "./thunks";
 

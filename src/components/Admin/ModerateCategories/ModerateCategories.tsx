@@ -1,10 +1,9 @@
 import "../ModerateItems/ModerateItems.scss";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { deleteCategory, deleteCharacteristic, deleteCharacteristicName, deleteKeyword, deletePrice, deleteProduct, deleteSubcategory, fetchItems, updateCategory, updateCharacteristic, updateCharacteristicName, updateKeyword, updatePrice, updateProduct, updateSubcategory } from "../../../features/admin/thunks";
+import { deleteCategory, deleteCharacteristicName, deleteKeyword, deletePrice, deleteProduct, deleteSubcategory, fetchItems, updateCategory, updateCharacteristic, updateCharacteristicName, updateKeyword, updatePrice, updateProduct, updateSubcategory } from "../../../features/admin/thunks";
 import ModerateSingleItem from "../ModerateSingleItem/ModerateSingleItem";
 import CreateItem from "../CreateItem/CreateItem";
-// import { DateTime } from "luxon";
 
 const ModerateCategories = () => {
 

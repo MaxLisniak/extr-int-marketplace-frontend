@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { axiosPrivate } from "../../axios/axios";
 import { configuredAxios } from "../../axios/axios";
 import "./Sign.scss";
 

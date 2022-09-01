@@ -1,12 +1,10 @@
 import "./SubcategoriesFilter.scss";
 
-import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
-import { setActiveSubcategory } from "../../../../features/filter/filterSlice";
+import { useAppSelector } from "../../../../app/hooks";
 import { Link } from "react-router-dom";
 
 const SubcategoriesFilter = () => {
 
-  const dispatch = useAppDispatch();
 
   const activeCategory = useAppSelector(state => state.filter.activeCategory)
   const activeSubcategory = useAppSelector(state => state.filter.activeSubcategory);
@@ -16,14 +14,11 @@ const SubcategoriesFilter = () => {
     )?.subcategories
   )
 
-  // const selectedSubcategory = useAppSelector(state => state.filter.selectedSubcategory)
-
   return (
     <form className="subcategories-filter">
       <div className="buttons">
         {subcategories?.map(sub => {
           return (
-            // <div className="button-container" key={sub.id}>
             <Link
               className="button-container"
               key={sub.id}
@@ -37,14 +32,10 @@ const SubcategoriesFilter = () => {
                 id={`radio-${sub.id}`}
                 checked={sub.id === activeSubcategory?.id}
                 readOnly={true}
-              // onChange={
-              //   () => dispatch(setActiveSubcategory(sub))
-              // }
               />
               <label htmlFor={`radio-${sub.id}`}>{sub.name}</label>
 
             </Link>
-            // </div>
           )
         }
         )}

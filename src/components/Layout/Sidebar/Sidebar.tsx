@@ -6,7 +6,7 @@ import StarIcon from "./assets/star.png";
 import AdminIcon from "./assets/admin.png";
 import { useAppSelector } from "../../../app/hooks";
 import SubcategoriesBlock from "./SubcategoriesBlock/SubcategoriesBlock";
-import React, { useState } from "react";
+import { useState } from "react";
 
 const Sidebar = () => {
 
