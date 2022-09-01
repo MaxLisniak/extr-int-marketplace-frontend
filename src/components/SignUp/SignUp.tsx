@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { axiosPrivate } from "../../axios/axios";
 import { configuredAxios } from "../../axios/axios";
 import "./Sign.scss";
@@ -12,7 +13,7 @@ const SignUp = () => {
 	const [confPassword, setConfPassword] = useState('');
 	const [errors, setErrors] = useState<string[]>([]);
 	const [success, setSuccess] = useState(false);
-
+	const navigate = useNavigate();
 	// clear errors when user unputs are changed
 	useEffect(() => {
 		setErrors([]);
@@ -50,97 +51,95 @@ const SignUp = () => {
 		}
 	}
 
-	const successScreen = (
-		<h1>Registration successul. Please <a href="/users/sign-in">sign in</a></h1>
-	)
+	if (success) {
+		navigate('/users/sign-in');
+	}
 
 	return (
-		success === true ? successScreen : (
-			<div className="container-sign">
-				<div className="auth-form-container">
-					<h1>SIGN UP</h1>
-					<form onSubmit={handleSubmit} className=" auth-form">
-						<div className="input-field">
-							<label htmlFor="email">Email</label>
-							<input
-								type="text"
-								placeholder="Enter email"
-								id="email"
-								onChange={(e: any) => setEmail(e.target.value)}
-								value={email}
-								required
-							/>
-						</div>
-						<div className="input-field">
-							<label htmlFor="first-name">First name</label>
-							<input
-								type="text"
-								placeholder="Enter first name"
-								id="first-name"
-								className="form-element-blue form-input"
-								onChange={(e: any) => setFirstName(e.target.value)}
-								value={firstName}
-								required
-							/>
-						</div>
-						<div className="input-field">
-							<label htmlFor="last-name">Last name</label>
-							<input
-								type="text"
-								placeholder="Enter last name"
-								id="last-name"
-								onChange={(e: any) => setLastName(e.target.value)}
-								value={lastName}
-								required
-							/>
-						</div>
-						<div className="input-field">
-							<label htmlFor="password">Password</label>
-							<input
-								type="password"
-								placeholder="Enter password"
-								id="password"
-								onChange={(e) => setPassword(e.target.value)}
-								value={password}
-								required
-							/>
-						</div>
-						<div className="input-field">
-							<label htmlFor="confPassword">Password Confirmation</label>
-							<input
-								type="password"
-								placeholder="Enter password confirmation"
-								id="confPassword"
-								onChange={(e) => setConfPassword(e.target.value)}
-								value={confPassword}
-								required
-							/>
-						</div>
+		<div className="container-sign">
+			<div className="auth-form-container">
+				<h1>SIGN UP</h1>
+				<form onSubmit={handleSubmit} className=" auth-form">
+					<div className="input-field">
+						<label htmlFor="email">Email</label>
+						<input
+							type="text"
+							placeholder="Enter email"
+							id="email"
+							onChange={(e: any) => setEmail(e.target.value)}
+							value={email}
+							required
+						/>
+					</div>
+					<div className="input-field">
+						<label htmlFor="first-name">First name</label>
+						<input
+							type="text"
+							placeholder="Enter first name"
+							id="first-name"
+							className="form-element-blue form-input"
+							onChange={(e: any) => setFirstName(e.target.value)}
+							value={firstName}
+							required
+						/>
+					</div>
+					<div className="input-field">
+						<label htmlFor="last-name">Last name</label>
+						<input
+							type="text"
+							placeholder="Enter last name"
+							id="last-name"
+							onChange={(e: any) => setLastName(e.target.value)}
+							value={lastName}
+							required
+						/>
+					</div>
+					<div className="input-field">
+						<label htmlFor="password">Password</label>
+						<input
+							type="password"
+							placeholder="Enter password"
+							id="password"
+							onChange={(e) => setPassword(e.target.value)}
+							value={password}
+							required
+						/>
+					</div>
+					<div className="input-field">
+						<label htmlFor="confPassword">Password Confirmation</label>
+						<input
+							type="password"
+							placeholder="Enter password confirmation"
+							id="confPassword"
+							onChange={(e) => setConfPassword(e.target.value)}
+							value={confPassword}
+							required
+						/>
+					</div>
 
-						{
-							errors.length > 0 ?
-								(
-									<ul>
-										{
-											errors.map((error, i) => {
-												return <li key={i} className="error-message"><p>{error}</p></li>
-											})
-										}
-									</ul>
-								)
-								: <></>
-						}
-						<div className="input-field">
-							<button
-							>Create Account</button>
+					{
+						errors.length > 0 ?
+							(
+								<ul>
+									{
+										errors.map((error, i) => {
+											return <li key={i} className="error-message"><p>{error}</p></li>
+										})
+									}
+								</ul>
+							)
+							: <></>
+					}
+					<div className="input-field">
+						<button
+						>Create Account</button>
 
-						</div>
-					</form>
-				</div>
+					</div>
+				</form>
 			</div>
-		)
-
+		</div>
 	)
+
 }
 
 export default SignUp;
