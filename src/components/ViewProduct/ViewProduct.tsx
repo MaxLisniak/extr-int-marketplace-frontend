@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { fetchProduct } from "../../features/product/thunks";
+import { fetchComments, fetchProduct } from "../../features/product/thunks";
 import Tag from '../Explore/Items/ItemBrief/assets/tag.png';
 import InfoIcons from "../InfoIcons/InfoIcons";
 import ProductPoster from "../ProductPoster/ProductPoster";
 import "./ViewProduct.scss";
 import CommentItem from "./CommentItem/CommentItem";
 import PricesChart from "./PricesChart/PricesChart";
+import CommentForm from "./CommentForm/CommentForm";
+import { Comment } from "../../features/types";
 
 const ViewProduct = () => {
   const { id } = useParams();
@@ -15,9 +17,11 @@ const ViewProduct = () => {
 
   useEffect(() => {
     dispatch(fetchProduct(Number(id)))
+    dispatch(fetchComments(Number(id)));
   }, [id])
 
   const product = useAppSelector(state => state.product.product);
+  const comments = useAppSelector(state => state.product.comments);
 
   const [tab, setTab] = useState('Description');
 
@@ -97,8 +101,9 @@ const ViewProduct = () => {
                 : tab === "Comments" ?
                   (
                     <div className="comments-box">
-                      {product.comments.length > 0 ?
-                        product.comments.map(comment => {
+                      <CommentForm />
+                      {comments.length > 0 ?
+                        comments.map((comment: Comment) => {
                           return <CommentItem comment={comment} key={comment.id} />
                         }) : <p>No comments left yet</p>}
                     </div>

@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { fetchProduct } from "./thunks";
+import { fetchComments, fetchProduct } from "./thunks";
 import { Product } from "../types";
+import { access } from "fs";
 
 const initialState = {
   product: {} as Product,
+  comments: [],
 }
 
 export const productSlice = createSlice({
@@ -16,6 +18,10 @@ export const productSlice = createSlice({
     builder
       .addCase(fetchProduct.fulfilled, (state, action) => {
         state.product = action.payload;
+      })
+    builder
+      .addCase(fetchComments.fulfilled, (state, action) => {
+        state.comments = action.payload;
       })
   }
 })

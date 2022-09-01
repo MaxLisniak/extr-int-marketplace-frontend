@@ -28,9 +28,8 @@ const useAxiosPrivate = () => {
                 const prevRequest = error?.config;
                 if (error?.response?.status === 403 && !prevRequest?.sent) {
                     prevRequest.sent = true;
-                    // const newAccessToken = await refresh();
-                    await dispatch(refreshAccessToken());
-                    prevRequest.headers['Authorization'] = `Bearer ${accessToken}`;
+                    const thunkResponse = await dispatch(refreshAccessToken());
+                    prevRequest.headers['Authorization'] = `Bearer ${thunkResponse.payload.accessToken}`;
                     return axiosPrivate(prevRequest);
                 }
                 return Promise.reject(error);
@@ -41,7 +40,7 @@ const useAxiosPrivate = () => {
             axiosPrivate.interceptors.request.eject(requestIntercept);
             axiosPrivate.interceptors.response.eject(responseIntercept);
         }
-    }, [refreshAccessToken])
+    }, [accessToken])
 
     return axiosPrivate;
 }

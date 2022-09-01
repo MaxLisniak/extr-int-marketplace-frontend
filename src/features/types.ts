@@ -110,3 +110,8 @@ export interface UserState {
   lastName: undefined | string,
   isAdmin: undefined | boolean
 }
+
+export interface ProductState {
+  product: Product,
+  comments: Comment[],
+}
