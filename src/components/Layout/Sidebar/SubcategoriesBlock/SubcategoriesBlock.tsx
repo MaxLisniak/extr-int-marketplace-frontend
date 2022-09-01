@@ -17,8 +17,11 @@ const SubcategoriesBlock = (props: { category: Category }) => {
         </ Link>
         {props.category.subcategories.map(subcategory => {
           return (
-            <Link to={`/explore/${props.category.name}/${subcategory.name}`} style={{ textDecoration: "none" }}>
-              <li key={subcategory.id}>{subcategory.name}</li>
+            <Link
+              key={subcategory.id}
+              to={`/explore/${props.category.name}/${subcategory.name}`}
+              style={{ textDecoration: "none" }}>
+              <li>{subcategory.name}</li>
             </Link>
           )
         })}

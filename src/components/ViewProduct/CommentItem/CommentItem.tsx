@@ -8,7 +8,7 @@ const CommentItem = (props: { comment: Comment }) => {
     <div className="comment">
       <div className="info-box">
         <img src={AvatarIcon} alt="avatar" />
-        <p>{props.comment.user?.first_name}</p>
+        <p>{props.comment.user ? props.comment.user?.first_name : "Deleted user"}</p>
         <p>{new Date(props.comment.created).toDateString()}</p>
         <p>{new Date(props.comment.created).toLocaleTimeString()}</p>
 

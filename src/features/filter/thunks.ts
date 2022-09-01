@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { Category, Subcategory } from "../types";
-import configuredAxios from "../../axios/axios";
+import { configuredAxios } from "../../axios/axios";
 
 export const fetchCategories = createAsyncThunk<
   Category[]

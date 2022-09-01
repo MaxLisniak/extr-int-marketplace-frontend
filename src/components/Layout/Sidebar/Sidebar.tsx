@@ -10,6 +10,7 @@ import React, { useState } from "react";
 
 const Sidebar = () => {
 
+  const isAdmin = useAppSelector(state => state.user.isAdmin);
   const [activeCategory, setActiveCategory] = useState<number | undefined>();
   const categories = useAppSelector(state => state.filter.categories);
 
@@ -60,12 +61,15 @@ const Sidebar = () => {
           })}
         </ul>
       </div>
-      <div className="item">
-        <Link to="/admin" style={{ textDecoration: "none" }}>
-          <img src={AdminIcon} alt="Admin" />
-          <p className="link-label">Admin</p>
-        </Link>
-      </div>
+      {isAdmin ?
+        <div className="item">
+          <Link to="/admin" style={{ textDecoration: "none" }}>
+            <img src={AdminIcon} alt="Admin" />
+            <p className="link-label">Admin</p>
+          </Link>
+        </div>
+        : null}
+
     </div>
   )
 }

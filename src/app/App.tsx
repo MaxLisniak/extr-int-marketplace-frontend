@@ -14,6 +14,8 @@ import Home from '../components/Explore/Home/Home';
 import Items from '../components/Explore/Items/Items';
 import NotFound from '../components/NotFound/NotFound';
 import ViewProduct from '../components/ViewProduct/ViewProduct';
+import SignIn from '../components/SignIn/SignIn';
+import SignUp from '../components/SignUp/SignUp';
 
 function App() {
 
@@ -46,6 +48,9 @@ function App() {
             <Route path="categories" element={<ModerateCategories />} />
             <Route path="subcategories" element={<ModerateSubcategories />} />
           </Route>
+          <Route path="users/sign-in/" element={<SignIn />} />
+          <Route path="users/sign-up/" element={<SignUp />} />
+
         </Route>
 
       </Routes>

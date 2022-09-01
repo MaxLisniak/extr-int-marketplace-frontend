@@ -101,3 +101,12 @@ export interface AdminState {
   keywords: Keyword[],
   errorMessages: string[],
 }
+
+export interface UserState {
+  accessToken: undefined | string,
+  userId: undefined | number,
+  email: undefined | string,
+  firstName: undefined | string,
+  lastName: undefined | string,
+  isAdmin: undefined | boolean
+}

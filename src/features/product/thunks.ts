@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import configuredAxios from "../../axios/axios";
+import { configuredAxios } from "../../axios/axios";
 
 export const fetchProduct = createAsyncThunk
   ('product/fetch', async (id: number) => {

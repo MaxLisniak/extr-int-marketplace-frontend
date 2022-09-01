@@ -1,0 +1,25 @@
+@import "../../../standard";
+
+.user {
+
+  img {
+    width: 50px;
+  }
+
+}
+
+.user-box {
+  background-color: white;
+  border: 1px solid grey;
+  padding: 10px;
+  border-radius: $border-radius;
+  position: absolute;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+
+  .links {
+    display: flex;
+    flex-direction: column;
+  }
+}

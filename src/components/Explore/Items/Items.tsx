@@ -4,7 +4,7 @@ import { ItemBrief } from "./ItemBrief/ItemBrief";
 import { Product } from '../../../features/types';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { useEffect, useState } from 'react';
-import configuredAxios from '../../../axios/axios';
+import { configuredAxios } from '../../../axios/axios';
 import DisplayOptionsBar from '../DisplayOptionsBar/DisplayOptionsBar';
 import FilterModal from '../FilterModal/FilterModal';
 import NotFound from '../../NotFound/NotFound';
