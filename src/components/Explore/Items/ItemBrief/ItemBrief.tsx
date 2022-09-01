@@ -4,20 +4,32 @@ import { Link } from "react-router-dom";
 import InfoIcons from '../../../InfoIcons/InfoIcons';
 
 import Tag from './assets/tag.png';
-import { useAppSelector } from '../../../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
 import { Product } from '../../../../features/types';
 import ProductPoster from '../../../ProductPoster/ProductPoster';
-
+import useAxiosPrivate from '../../../../hooks/useAxiosPrivate';
 
 export const ItemBrief = (props: {
   product: Product,
 }) => {
 
+  const axiosAuth = useAxiosPrivate()
+  const userId = useAppSelector(state => state.user.userId);
   const characteristicNames = useAppSelector(state => state.filter.characteristicNames);
   const displayAs = useAppSelector(state => state.filter.displayAs);
   // const selectedCharacteristics = useAppSelector(state => state.filter.selectedCharacteristics)
   return <div className={`product-card ${displayAs}`}>
-    <div className="star">
+    <div
+      className="star"
+      onClick={() => {
+        if (userId) {
+          const response = axiosAuth.post('/favorites/toggle', {
+            product_id: props.product.id,
+            user_id: userId,
+          })
+        }
+      }}
+    >
       <img src={StarWhite} alt="" />
     </div>
     <Link

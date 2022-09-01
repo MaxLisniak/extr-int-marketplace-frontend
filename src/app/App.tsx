@@ -50,7 +50,7 @@ function App() {
           </Route>
           <Route path="users/sign-in/" element={<SignIn />} />
           <Route path="users/sign-up/" element={<SignUp />} />
-
+          <Route path="favorites/" element={<Items />} />
         </Route>
 
       </Routes>
