@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { fetchComments } from "../../../features/product/thunks";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
-
+import "./CommentForm.scss";
 
 const CommentForm = () => {
 
@@ -14,7 +14,7 @@ const CommentForm = () => {
 
   if (userId)
     return (
-      <form onSubmit={async (e) => {
+      <form className="comment-form" onSubmit={async (e) => {
         e.preventDefault()
 
         console.log(axiosAuth);
