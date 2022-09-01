@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
+import { access } from "fs";
 import { UserState } from "../types";
 import { fetchFavorites, refreshAccessToken } from "./thunks";
 
@@ -35,6 +36,10 @@ export const userSlice = createSlice({
     builder
       .addCase(fetchFavorites.fulfilled, (state, action) => {
         state.favProducts = action.payload;
+      })
+    builder
+      .addCase(fetchFavorites.rejected, (state, action) => {
+        state.favProducts = []
       })
   }
 })

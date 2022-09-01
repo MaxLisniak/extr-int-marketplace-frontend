@@ -9,6 +9,7 @@ import { persistReducer, persistStore } from 'redux-persist';
 const userPersistConfig = {
   key: 'user',
   storage,
+  blacklist: ["favProducts"]
 }
 
 const persistedUserReducer = persistReducer(userPersistConfig, userReducer)
