@@ -5,28 +5,39 @@ import InfoIcons from '../../../InfoIcons/InfoIcons';
 
 import Tag from './assets/tag.png';
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
-import { Product } from '../../../../features/types';
+import { Category, Product } from '../../../../features/types';
 import ProductPoster from '../../../ProductPoster/ProductPoster';
 import useAxiosPrivate from '../../../../hooks/useAxiosPrivate';
+import { fetchFavorites } from '../../../../features/user/thunks';
 
 export const ItemBrief = (props: {
   product: Product,
 }) => {
 
+  const dispatch = useAppDispatch();
+  const categories = useAppSelector(state => state.filter.categories);
   const axiosAuth = useAxiosPrivate()
   const userId = useAppSelector(state => state.user.userId);
   const characteristicNames = useAppSelector(state => state.filter.characteristicNames);
   const displayAs = useAppSelector(state => state.filter.displayAs);
-  // const selectedCharacteristics = useAppSelector(state => state.filter.selectedCharacteristics)
+  const category = categories.filter((category: Category) => {
+    return category.subcategories.map(subcategory => subcategory.id)
+      .includes(props.product.subcategory_id);
+  })[0];
+  const subcategory = category?.subcategories.filter(subcategory => {
+    return subcategory.category_id === category.id;
+  })[0];
+
   return <div className={`product-card ${displayAs}`}>
     <div
       className="star"
-      onClick={() => {
+      onClick={async () => {
         if (userId) {
-          const response = axiosAuth.post('/favorites/toggle', {
+          const response = await axiosAuth.post('/favorites/toggle', {
             product_id: props.product.id,
             user_id: userId,
           })
+          dispatch(fetchFavorites({ user_id: userId, axios: axiosAuth }))
         }
       }}
     >
@@ -34,7 +45,7 @@ export const ItemBrief = (props: {
     </div>
     <Link
       style={{ textDecoration: "none", color: "black" }}
-      to={`${props.product.id}`}
+      to={`/explore/${category?.name}/${subcategory?.name}/${props.product.id}`}
     >
       <div className="card-content">
         <div className="poster">

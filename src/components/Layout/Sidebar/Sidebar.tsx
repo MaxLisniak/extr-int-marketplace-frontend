@@ -23,7 +23,7 @@ const Sidebar = () => {
         </Link>
       </div>
       <div className="item">
-        <Link to="/" style={{ textDecoration: "none" }}>
+        <Link to="/favorites" style={{ textDecoration: "none" }}>
           <img src={StarIcon} alt="Favorites" />
           <p className="link-label">Favorites</p>
         </Link>

@@ -108,7 +108,8 @@ export interface UserState {
   email: undefined | string,
   firstName: undefined | string,
   lastName: undefined | string,
-  isAdmin: undefined | boolean
+  isAdmin: undefined | boolean,
+  favProducts: Product[],
 }
 
 export interface ProductState {

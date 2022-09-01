@@ -9,7 +9,7 @@ import { setPriceOrder } from '../../../features/filter/filterSlice';
 import { toggleFilterVisibility } from '../../../features/filter/filterSlice';
 import { toggleView } from '../../../features/filter/filterSlice';
 
-const DisplayOptionsBar = () => {
+const DisplayOptionsBar = (props: { includeFilter: boolean, includePriceToggle: boolean }) => {
 
   const dispatch = useAppDispatch();
   const order = useAppSelector(state => state.filter.priceOrder);
@@ -29,17 +29,21 @@ const DisplayOptionsBar = () => {
         onClick={() => dispatch(toggleView())}>
         <img src={displayAs === "tiles" ? Rows : Tiles} alt="" />
       </div>
-      <div onClick={toggleOrder} className="item price">
-        <img className='price-icon' src={Price} alt="" />
-        <span>Price</span>
-        <img className='arrow-icon' src={Arrow} alt=""
-          style={order === "asc" ? {} : { transform: "rotate(180deg)" }} />
-      </div>
-      <div className="item filter-btn"
-        onClick={() => dispatch(toggleFilterVisibility())}>
-        <img src={Filter} alt="" />
-        <span>Filter</span>
-      </div>
+      {props.includePriceToggle ?
+        <div onClick={toggleOrder} className="item price">
+          <img className='price-icon' src={Price} alt="" />
+          <span>Price</span>
+          <img className='arrow-icon' src={Arrow} alt=""
+            style={order === "asc" ? {} : { transform: "rotate(180deg)" }} />
+        </div>
+        : null}
+      {props.includeFilter ?
+        <div className="item filter-btn"
+          onClick={() => dispatch(toggleFilterVisibility())}>
+          <img src={Filter} alt="" />
+          <span>Filter</span>
+        </div>
+        : null}
     </div>
   )
 }

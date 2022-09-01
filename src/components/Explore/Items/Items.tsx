@@ -96,7 +96,7 @@ const Items = () => {
 
   return (
     <>
-      <DisplayOptionsBar />
+      <DisplayOptionsBar includeFilter={true} includePriceToggle={true} />
       <FilterModal />
       <div className={`items-list ${displayAs}`}>
         {

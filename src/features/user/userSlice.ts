@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { UserState } from "../types";
-import { refreshAccessToken } from "./thunks";
+import { fetchFavorites, refreshAccessToken } from "./thunks";
 
 const initialState: UserState = {
   accessToken: undefined,
@@ -9,6 +9,7 @@ const initialState: UserState = {
   firstName: undefined,
   lastName: undefined,
   isAdmin: undefined,
+  favProducts: [],
 }
 
 export const userSlice = createSlice({
@@ -30,6 +31,10 @@ export const userSlice = createSlice({
     builder
       .addCase(refreshAccessToken.fulfilled, (state, action) => {
         state.accessToken = action.payload.accessToken;
+      })
+    builder
+      .addCase(fetchFavorites.fulfilled, (state, action) => {
+        state.favProducts = action.payload;
       })
   }
 })

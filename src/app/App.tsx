@@ -16,6 +16,7 @@ import NotFound from '../components/NotFound/NotFound';
 import ViewProduct from '../components/ViewProduct/ViewProduct';
 import SignIn from '../components/SignIn/SignIn';
 import SignUp from '../components/SignUp/SignUp';
+import Favorites from '../components/Favorites/Favorites';
 
 function App() {
 
@@ -50,7 +51,7 @@ function App() {
           </Route>
           <Route path="users/sign-in/" element={<SignIn />} />
           <Route path="users/sign-up/" element={<SignUp />} />
-          <Route path="favorites/" element={<Items />} />
+          <Route path="favorites/" element={<Favorites />} />
         </Route>
 
       </Routes>
