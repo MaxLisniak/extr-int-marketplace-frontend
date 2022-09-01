@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { axiosPrivate } from "../../axios/axios";
 import { configuredAxios } from "../../axios/axios";
+import "./Sign.scss";
 
 const SignUp = () => {
 
@@ -55,78 +56,87 @@ const SignUp = () => {
 
 	return (
 		success === true ? successScreen : (
-			<div className="auth-form-container">
-				<h1>Sign up</h1>
-				<form onSubmit={handleSubmit} className="form auth-form">
-					<label htmlFor="email">Email</label>
-					<input
-						type="text"
-						placeholder="Enter email"
-						id="email"
-						className="form-element-blue form-input"
-						onChange={(e: any) => setEmail(e.target.value)}
-						value={email}
-						required
-					/>
-					<label htmlFor="first-name">First name</label>
-					<input
-						type="text"
-						placeholder="Enter first name"
-						id="first-name"
-						className="form-element-blue form-input"
-						onChange={(e: any) => setFirstName(e.target.value)}
-						value={firstName}
-						required
-					/>
-					<label htmlFor="last-name">Last name</label>
-					<input
-						type="text"
-						placeholder="Enter last name"
-						id="last-name"
-						className="form-element-blue form-input"
-						onChange={(e: any) => setLastName(e.target.value)}
-						value={lastName}
-						required
-					/>
-					<label htmlFor="password">Password</label>
-					<input
-						type="password"
-						placeholder="Enter password"
-						id="password"
-						className="form-element-blue"
-						onChange={(e) => setPassword(e.target.value)}
-						value={password}
-						required
-					/>
-					<label htmlFor="confPassword">Password Confirmation</label>
-					<input
-						type="password"
-						placeholder="Enter password confirmation"
-						id="confPassword"
-						className="form-element-blue"
-						onChange={(e) => setConfPassword(e.target.value)}
-						value={confPassword}
-						required
-					/>
+			<div className="container-sign">
+				<div className="auth-form-container">
+					<h1>SIGN UP</h1>
+					<form onSubmit={handleSubmit} className=" auth-form">
+						<div className="input-field">
+							<label htmlFor="email">Email</label>
+							<input
+								type="text"
+								placeholder="Enter email"
+								id="email"
+								onChange={(e: any) => setEmail(e.target.value)}
+								value={email}
+								required
+							/>
+						</div>
+						<div className="input-field">
+							<label htmlFor="first-name">First name</label>
+							<input
+								type="text"
+								placeholder="Enter first name"
+								id="first-name"
+								className="form-element-blue form-input"
+								onChange={(e: any) => setFirstName(e.target.value)}
+								value={firstName}
+								required
+							/>
+						</div>
+						<div className="input-field">
+							<label htmlFor="last-name">Last name</label>
+							<input
+								type="text"
+								placeholder="Enter last name"
+								id="last-name"
+								onChange={(e: any) => setLastName(e.target.value)}
+								value={lastName}
+								required
+							/>
+						</div>
+						<div className="input-field">
+							<label htmlFor="password">Password</label>
+							<input
+								type="password"
+								placeholder="Enter password"
+								id="password"
+								onChange={(e) => setPassword(e.target.value)}
+								value={password}
+								required
+							/>
+						</div>
+						<div className="input-field">
+							<label htmlFor="confPassword">Password Confirmation</label>
+							<input
+								type="password"
+								placeholder="Enter password confirmation"
+								id="confPassword"
+								onChange={(e) => setConfPassword(e.target.value)}
+								value={confPassword}
+								required
+							/>
+						</div>
 
-					{
-						errors.length > 0 ?
-							(
-								<ul>
-									{
-										errors.map((error, i) => {
-											return <li key={i} className="error-message"><p>{error}</p></li>
-										})
-									}
-								</ul>
-							)
-							: <></>
-					}
-					<input
-						type="submit"
-						className="form-element-blue"
-					/>
-				</form>
+						{
+							errors.length > 0 ?
+								(
+									<ul>
+										{
+											errors.map((error, i) => {
+												return <li key={i} className="error-message"><p>{error}</p></li>
+											})
+										}
+									</ul>
+								)
+								: <></>
+						}
+						<div className="input-field">
+							<button
+							>Create Account</button>
+
+						</div>
+					</form>
+				</div>
 			</div>
 		)
 

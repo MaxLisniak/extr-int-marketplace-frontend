@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import { useAppDispatch } from "../../app/hooks";
 import { axiosPrivate } from "../../axios/axios";
 import { setAccessToken, setUser } from "../../features/user/userSlice";
-import { configuredAxios } from "../../axios/axios";
+import "../SignUp/Sign.scss";
 
 const SignIn = () => {
 
@@ -33,7 +33,6 @@ const SignIn = () => {
 			const accessToken = response.data.accessToken;
 			const user = response.data.loggedUser;
 
-			console.log(user)
 			dispatch(setUser(user))
 			dispatch(setAccessToken(accessToken));
 			navigate("/");
@@ -53,49 +52,57 @@ const SignIn = () => {
 	}
 
 	return (
-		<div className="auth-form-container">
-			<h1>Sign In</h1>
-			<form onSubmit={handleSubmit} className="form auth-form">
-				<label htmlFor="email">Email</label>
-				<input
-					type="text"
-					placeholder="Enter email"
-					id="email"
-					className="form-element-blue"
-					onChange={(e) => setEmail(e.target.value)}
-					value={email}
-					required
-				/>
-				<label htmlFor="password">Password</label>
-				<input
-					type="password"
-					placeholder="Enter password"
-					id="password"
-					className="form-element-blue"
-					onChange={(e) => setPassword(e.target.value)}
-					value={password}
-					required
-				/>
+		<div className="container-sign">
 
-				{
-					errors.length > 0 ?
-						(
-							<ul>
-								{
-									errors.map((error, i) => {
-										return <li key={i} className="error-message"><p>{error}</p></li>
-									})
-								}
-							</ul>
-						)
-						: <></>
-				}
-				<input
-					type="submit"
-					className="form-element-blue"
-				/>
-			</form>
+			<div className="auth-form-container">
+				<h1>Sign In</h1>
+				<form onSubmit={handleSubmit} className="auth-form">
+					<div className="input-field">
+						<label htmlFor="email">Email</label>
+
+						<input
+							type="text"
+							placeholder="Enter email"
+							id="email"
+							onChange={(e) => setEmail(e.target.value)}
+							value={email}
+							required
+						/>
+					</div>
+					<div className="input-field">
+
+						<label htmlFor="password">Password</label>
+						<input
+							type="password"
+							placeholder="Enter password"
+							id="password"
+							onChange={(e) => setPassword(e.target.value)}
+							value={password}
+							required
+						/>
+					</div>
+
+					{
+						errors.length > 0 ?
+							(
+								<ul>
+									{
+										errors.map((error, i) => {
+											return <li key={i} className="error-message"><p>{error}</p></li>
+										})
+									}
+								</ul>
+							)
+							: <></>
+					}
+					<div className="input-field">
+						<button
+						>Continue</button>
+					</div>
+				</form>
+			</div>
 		</div>
+
 	)
 }
 
