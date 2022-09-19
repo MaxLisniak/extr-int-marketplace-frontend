@@ -93,19 +93,20 @@ export const filterSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchCategories.fulfilled, (state, action) => {
-        state.categories = action.payload;
+        state.categories = action.payload.data.categories;
       })
     builder
       .addCase(fetchCharacteristicsForSubcategory.fulfilled, (state, action) => {
-        state.characteristicNames = action.payload;
+        state.characteristicNames = action.payload.data.characteristicNames;
       })
     builder
       .addCase(searchKeywordsAndProducts.fulfilled, (state, action) => {
-        state.searchResults = action.payload;
+        state.searchResults.keywords = action.payload.keywords.data.keywords;
+        state.searchResults.products = action.payload.products.data.products;
       })
     builder
       .addCase(fetchProducts.fulfilled, (state, action) => {
-        state.products = action.payload;
+        state.products = action.payload.data.products;
       })
   }
 })

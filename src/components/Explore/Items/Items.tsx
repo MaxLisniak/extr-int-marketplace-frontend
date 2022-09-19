@@ -8,7 +8,7 @@ import { configuredAxios } from '../../../axios/axios';
 import DisplayOptionsBar from '../DisplayOptionsBar/DisplayOptionsBar';
 import FilterModal from '../FilterModal/FilterModal';
 import NotFound from '../../NotFound/NotFound';
-import { fetchCharacteristicsForSubcategory } from '../../../features/filter/thunks';
+import { fetchCharacteristicsForSubcategory, fetchProducts } from '../../../features/filter/thunks';
 
 
 const Items = () => {
@@ -22,24 +22,26 @@ const Items = () => {
   const minPrice = useAppSelector(state => state.filter.minPrice);
   const maxPrice = useAppSelector(state => state.filter.maxPrice);
 
-  const [products, setProducts] = useState<Product[]>([]);
+  // const [products, setProducts] = useState<Product[]>([]);
   const characteristicNames = useAppSelector(state => state.filter.characteristicNames)
+  const products = useAppSelector(state => state.filter.products)
 
   useEffect(() => {
     if (activeCategory && activeSubcategory) {
-      configuredAxios
-        .get("/products/explore", {
-          params: {
-            selectedCategoryName: activeCategory?.name,
-            selectedSubcategoryName: activeSubcategory?.name
-          },
-        })
-        .then((fetched) => {
-          setProducts(fetched.data)
-        })
-        .catch((err) => {
-          console.error(err)
-        })
+      // configuredAxios
+      //   .get("/products/explore", {
+      //     params: {
+      //       selectedCategoryName: activeCategory?.name,
+      //       selectedSubcategoryName: activeSubcategory?.name
+      //     },
+      //   })
+      //   .then((fetched) => {
+      //     setProducts(fetched.data)
+      //   })
+      //   .catch((err) => {
+      //     console.error(err)
+      //   })
+      dispatch(fetchProducts({ activeCategory, activeSubcategory }))
       dispatch(fetchCharacteristicsForSubcategory(activeSubcategory.id));
     }
   }, [
@@ -49,8 +51,9 @@ const Items = () => {
 
   if (!activeSubcategory) return <NotFound />
 
-  const productsFiltered = (
+  const productsFiltered =
     products
+      .slice()
       .sort(
         priceOrder === "desc" ?
           (a: Product, b: Product) => a.latest_price - b.latest_price :
@@ -92,7 +95,7 @@ const Items = () => {
           <ItemBrief product={product} key={product.id} />
         )
       })
-  )
+
 
   return (
     <>
